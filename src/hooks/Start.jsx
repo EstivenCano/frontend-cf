@@ -1,9 +1,11 @@
 import React from "react";
+import dotenv from 'dotenv'
 
 const Start = () => {
+  dotenv.config()
   return (
     <div>
-      <h1>Pagina de inicio</h1>
+      <h1>{process.env.REACT_APP_HOST}</h1>
     </div>
   );
 };
