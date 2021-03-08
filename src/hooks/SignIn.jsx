@@ -7,7 +7,9 @@ import {
   Image,
   Message,
   Segment,
+  Icon
 } from "semantic-ui-react";
+import firebase from 'firebase/app'
 import "firebase/auth";
 import { useAuth } from "reactfire";
 
@@ -19,6 +21,10 @@ function LoginForm() {
   const login = async () => {
     await auth.signInWithEmailAndPassword(email, password);
   };
+
+  const GoogleSign = () => {
+    auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+  }
 
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
@@ -44,7 +50,6 @@ function LoginForm() {
               type="password"
               onChange={(ev) => setPassword(ev.target.value)}
             />
-
             <Button color="teal" fluid size="large" onClick={login}>
               Iniciar sesión
             </Button>
@@ -53,6 +58,9 @@ function LoginForm() {
         <Message>
           ¿No tienes una cuenta? <a href="/signup">Crear una</a>
         </Message>
+        <Button color="google plus" fluid size="large" onClick={GoogleSign}>
+          <Icon name="google" /> Google
+        </Button>
       </Grid.Column>
     </Grid>
   );
