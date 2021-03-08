@@ -11,6 +11,7 @@ function Main(props) {
         <Route path="/inicio" component={Start} />
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/aplicar" component={ApplyStudent} />
         <Redirect to="/inicio" />
       </Switch>
     </div>
