@@ -3,6 +3,7 @@ import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import Start from './Start';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import ApplyStudent from './ApplyStudent';
 
 function Main(props) {
   return (
