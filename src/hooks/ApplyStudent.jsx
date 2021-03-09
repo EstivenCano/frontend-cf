@@ -5,10 +5,7 @@ import {
   Grid,
   Header,
   Image,
-  Input,
-  Message,
   Segment,
-  Select,
   Icon
 } from "semantic-ui-react";
 

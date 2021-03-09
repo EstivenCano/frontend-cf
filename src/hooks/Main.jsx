@@ -4,6 +4,7 @@ import Start from './Start';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import ApplyStudent from './ApplyStudent';
+import CreateOffer from './CreateOffer';
 
 function Main(props) {
   return (
@@ -13,6 +14,7 @@ function Main(props) {
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/aplicar" component={ApplyStudent} />
+        <Route path="/crearConvocatoria" component={CreateOffer} />
         <Redirect to="/inicio" />
       </Switch>
     </div>
