@@ -16,7 +16,7 @@ import "../css/Start.css";
 const Start = () => {
   return (
     <Container>
-      <Grid columns={2}>
+      <Grid columns={2} textAlign="center" verticalAlign="middle">
         <GridRow>
           <GridColumn className="column-content">
             <GridRow className="row-content">

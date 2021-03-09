@@ -7,31 +7,65 @@ import {
   Image,
   Message,
   Segment,
-  Icon
+  Icon,
 } from "semantic-ui-react";
-import firebase from 'firebase/app'
+import firebase from "firebase/app";
 import "firebase/auth";
-import { useAuth } from "reactfire";
+import axios from "axios";
+import { useAuth, useUser } from "reactfire";
 
 function LoginForm() {
+  //useState
   const auth = useAuth();
+  const { data: actualUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rol, setRol] = useState([
+    {
+      Student: true,
+      Manager: true,
+    },
+  ]);
 
   const login = async () => {
-    await auth.signInWithEmailAndPassword(email, password);
+    await auth.signInWithEmailAndPassword(email, password).then(() => {
+      actualUser.providerData.map((profile) => {
+        if (profile) {
+          return console.log(profile.email);
+        } else {
+          return console.log("Null profile");
+        }
+      });
+    });
   };
 
-  const GoogleSign = () => {
-    auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-  }
+  const GoogleSign = async () => {
+    await auth
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then(() => {
+        actualUser.providerData.map((profile) => {
+          if (profile) {
+            async function fetchData() {
+              const result = await axios.post(
+                `http://localhost:3001/addUser/${profile.email}`
+              );
+
+              console.log(result.data.mensaje)
+            }
+            return fetchData();
+          } else {
+            return console.log("Null profile");
+          }
+        });
+      });
+  };
 
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" inverted color="#0000" textAlign="center">
+        <Header as="h2" inverted color="black" textAlign="center">
           <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Escudo_Universidad_de_Medellin.svg/1200px-Escudo_Universidad_de_Medellin.svg.png" />
-          Ingresa a tu cuenta
+          Iniciar Sesión
         </Header>
         <Form size="large">
           <Segment stacked>
