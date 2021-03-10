@@ -14,6 +14,7 @@ import { ReactComponent as Educate } from "../svg/education.svg";
 import "../css/Start.css";
 
 const Start = () => {
+
   return (
     <Container>
       <Grid columns={2} textAlign="center" verticalAlign="middle">
@@ -21,7 +22,7 @@ const Start = () => {
           <GridColumn className="column-content">
             <GridRow className="row-content">
               <Header as="h1">
-                <Header.Content>¡Bienvenido a Camino flexible!</Header.Content>
+                <Header.Content>¡Bienvenido a Camino Flexible!</Header.Content>
               </Header>
               <br />
               <Image
@@ -35,12 +36,6 @@ const Start = () => {
                 <ButtonContent visible>Ver Convocatorias</ButtonContent>
                 <Button.Content hidden>
                   <Icon name="arrow right" />
-                </Button.Content>
-              </Button>
-              <Button href="./SignIn" primary animated>
-                <ButtonContent visible>Iniciar Sesión</ButtonContent>
-                <Button.Content hidden>
-                  <Icon name="user" />
                 </Button.Content>
               </Button>
             </GridRow>
