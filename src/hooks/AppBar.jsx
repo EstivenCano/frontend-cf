@@ -65,27 +65,33 @@ const AppBar = (props) => {
     );
   }
 
+  function getRol() {
+    if (props.moderator === true) {
+      window.open('/create','_self')
+    }
+    if (props.student === true) {
+      window.open('/apply','_self')
+    }
+  }
+
   function AppB() {
     return (
       <Grid>
         <Segment
-          inverted
+          color="teal"
           textAlign="center"
           style={{ minHeight: 50, padding: "1em 0em" }}
           vertical
         >
           <Menu fixed="top" size="large">
-            <Menu.Item as="a" active>
+            <Menu.Item active visible={false}>
               {user.data != null ? user.data.displayName : "Invitado"} 🔥
             </Menu.Item>
-            <Menu.Item as="a">
-              {props.rol === true ? "Moderador" : "false"}
+            <Menu.Item>
+              {props.moderator ? "Moderador" : "Estudiante"}
             </Menu.Item>
-            <Menu.Item as="a">
-              {props.logged === true ? "true" : "false"}
-            </Menu.Item>
-            <Menu.Item as="a">
-              {props.user.data ? props.user.data.email : "Crear"}
+            <Menu.Item onClick={getRol}>
+              {props.moderator === true ? "Crear" : (user.data != null ? "Aplicar" : "")}
             </Menu.Item>
             <Menu.Item position="right">
               <AuthenticationButtons />

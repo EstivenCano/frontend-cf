@@ -4,12 +4,15 @@ import Start from "./Start";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import AppBar from "./AppBar";
+import ApplyStudent from "./ApplyStudent";
+import CreateOffer from "./CreateOffer";
 import PublicRoute from "./PublicRoute";
+import PrivateRoute from "./PrivateRoute";
 import firebase from "firebase/app";
 import { useUser } from "reactfire";
 import axios from "axios";
-import PrivateRoute from "./PrivateRoute";
 import { Loader, Dimmer } from "semantic-ui-react";
+
 
 function Main(props) {
   const user = useUser();
@@ -65,7 +68,14 @@ function Main(props) {
         </div>
       ) : (
         <div className="App">
-          <AppBar user={user} logged={logged} rol={moderator} />
+          <AppBar
+            user={user}
+            logged={logged}
+            moderator={moderator}
+            student={student}
+            teacher={teacher}
+            manager={manager}
+          />
           <Switch>
             <PublicRoute
               logged={logged}
@@ -80,6 +90,16 @@ function Main(props) {
               component={SignIn}
             />
             <PrivateRoute rol={moderator} path="/signup" component={SignUp} />
+            <PrivateRoute
+              rol={student}
+              path="/apply"
+              component={ApplyStudent}
+            />
+            <PrivateRoute
+              rol={moderator}
+              path="/create"
+              component={CreateOffer}
+            />
             <Redirect to="/start" />
           </Switch>
         </div>
