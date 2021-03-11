@@ -1,15 +1,13 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const PublicRoute = ({ component: Component, restricted, ...rest }, props) => {
-  const logged = props.logged;
+const PublicRoute = ({ component: Component, restricted,rol,logged, ...rest }) => {
   return (
     // restricted = false meaning public route
     // restricted = true meaning restricted route
-    <Route
-      {...rest}
+    <Route logged={logged} rol={rol}
       render={(props) =>
-        logged && restricted ? (
+        props.rol ? (
           <Redirect to="/inicio" />
         ) : (
           <Component {...props} />

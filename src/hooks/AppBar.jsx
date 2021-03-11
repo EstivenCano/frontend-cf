@@ -10,7 +10,7 @@ import {
   Segment,
 } from "semantic-ui-react";
 import "../css/AppBar.css";
-import axios from 'axios'
+import axios from "axios";
 
 const AppBar = (props) => {
   const user = useUser();
@@ -18,21 +18,23 @@ const AppBar = (props) => {
   function AuthenticationButtons() {
     const auth = useAuth();
     const signIn = async () => {
-      await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((result) => {
-        var googleUser = result.user;
-        console.log(googleUser.email);
-        if (googleUser) {
-          async function fetchData() {
-            const result = await axios.post(
-              `http://localhost:3001/addUser/${googleUser.email}`
-            );
-            console.log(result.data.mensaje);
+      await auth
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then((result) => {
+          var googleUser = result.user;
+          console.log(googleUser.email);
+          if (googleUser) {
+            async function fetchData() {
+              const result = await axios.post(
+                `http://localhost:3001/addUser/${googleUser.email}`
+              );
+              console.log(result.data.mensaje);
+            }
+            return fetchData();
+          } else {
+            return console.log("Null profile");
           }
-          return fetchData();
-        } else {
-          return console.log("Null profile");
-        }
-      });;
+        });
     };
     const signOut = async () => {
       await auth.signOut();
@@ -76,9 +78,15 @@ const AppBar = (props) => {
             <Menu.Item as="a" active>
               {user.data != null ? user.data.displayName : "Invitado"} 🔥
             </Menu.Item>
-            <Menu.Item as="a">{props.roles.moderator != null && props.roles.moderator.booleanValue === true ? "Moderator" : "Student"}</Menu.Item>
-            <Menu.Item as="a">{props.logged === true ? "true" : "false"}</Menu.Item>
-            <Menu.Item as="a">{props.user.data ? props.user.data.email : "Crear"}</Menu.Item>
+            <Menu.Item as="a">
+              {props.rol === true ? "Moderador" : "false"}
+            </Menu.Item>
+            <Menu.Item as="a">
+              {props.logged === true ? "true" : "false"}
+            </Menu.Item>
+            <Menu.Item as="a">
+              {props.user.data ? props.user.data.email : "Crear"}
+            </Menu.Item>
             <Menu.Item position="right">
               <AuthenticationButtons />
             </Menu.Item>
