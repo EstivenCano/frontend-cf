@@ -11,7 +11,7 @@ import {
 import "firebase/auth";
 import { useAuth } from "reactfire";
 
-function LoginForm() {
+function SignUp() {
   const auth = useAuth();
   const [email, setEmail] = useState("");
   const [pass1, setPassword1] = useState("");
@@ -38,7 +38,7 @@ function LoginForm() {
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" inverted color="#0000" textAlign="center">
+        <Header as="h2" inverted color='black' textAlign="center">
           <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Escudo_Universidad_de_Medellin.svg/1200px-Escudo_Universidad_de_Medellin.svg.png" /> 
           Crear una cuenta
         </Header>
@@ -87,4 +87,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default SignUp;

@@ -1,16 +1,18 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { FirebaseAppProvider } from 'reactfire';
+import { FirebaseAppProvider, SuspenseWithPerf } from 'reactfire';
 import firebaseConfig from './firebase-config'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-    <Suspense fallback={'Cargando la app...'}>
+    <SuspenseWithPerf
+      fallback={<p>Cargando la app...</p>}
+      traceId={'loading-app-status'}>
       <App />
-    </Suspense>
+    </SuspenseWithPerf>
   </FirebaseAppProvider>,
   document.getElementById('root')
 );
