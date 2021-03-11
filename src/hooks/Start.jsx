@@ -14,7 +14,6 @@ import { ReactComponent as Educate } from "../svg/education.svg";
 import "../css/Start.css";
 
 const Start = () => {
-
   return (
     <Container>
       <Grid columns={2} textAlign="center" verticalAlign="middle">

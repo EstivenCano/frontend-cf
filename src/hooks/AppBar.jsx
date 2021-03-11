@@ -12,7 +12,7 @@ import {
 import "../css/AppBar.css";
 import axios from 'axios'
 
-const AppBar = () => {
+const AppBar = (props) => {
   const user = useUser();
 
   function AuthenticationButtons() {
@@ -76,9 +76,9 @@ const AppBar = () => {
             <Menu.Item as="a" active>
               {user.data != null ? user.data.displayName : "Invitado"} 🔥
             </Menu.Item>
-            <Menu.Item as="a">Convocatorias</Menu.Item>
-            <Menu.Item as="a">Aplicar</Menu.Item>
-            <Menu.Item as="a">Crear</Menu.Item>
+            <Menu.Item as="a">{props.roles.moderator != null && props.roles.moderator.booleanValue === true ? "Moderator" : "Student"}</Menu.Item>
+            <Menu.Item as="a">{props.logged === true ? "true" : "false"}</Menu.Item>
+            <Menu.Item as="a">{props.user.data ? props.user.data.email : "Crear"}</Menu.Item>
             <Menu.Item position="right">
               <AuthenticationButtons />
             </Menu.Item>

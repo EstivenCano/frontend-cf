@@ -12,12 +12,11 @@ import {
 import firebase from "firebase/app";
 import "firebase/auth";
 import axios from "axios";
-import { useAuth, useUser, AuthCheck } from "reactfire";
+import { useAuth, AuthCheck } from "reactfire";
 
 function LoginForm() {
   //useState
   const auth = useAuth();
-  const user = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
