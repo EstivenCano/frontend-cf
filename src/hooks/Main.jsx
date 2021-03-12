@@ -13,7 +13,6 @@ import { useUser } from "reactfire";
 import axios from "axios";
 import { Loader, Dimmer } from "semantic-ui-react";
 
-
 function Main(props) {
   const user = useUser();
   const [logged, setLogged] = useState(false);
@@ -26,6 +25,12 @@ function Main(props) {
   useEffect(() => {
     setBusy(true);
     if (user.data != null) {
+      async function fetchData() {
+        const result = await axios.post(
+          `http://localhost:3001/addUser/${user.data.email}`
+        );
+        console.log(result.data.mensaje);
+      }
       function getRoles() {
         axios
           .get(`http://localhost:3001/roles/${user.data.email}`)
@@ -41,7 +46,9 @@ function Main(props) {
             setBusy(false);
           });
       }
-      getRoles();
+      fetchData().then(()=>{
+        getRoles();
+      })
     }
   }, [user.data]);
 

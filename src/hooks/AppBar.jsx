@@ -20,21 +20,7 @@ const AppBar = (props) => {
     const signIn = async () => {
       await auth
         .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        .then((result) => {
-          var googleUser = result.user;
-          console.log(googleUser.email);
-          if (googleUser) {
-            async function fetchData() {
-              const result = await axios.post(
-                `http://localhost:3001/addUser/${googleUser.email}`
-              );
-              console.log(result.data.mensaje);
-            }
-            return fetchData();
-          } else {
-            return console.log("Null profile");
-          }
-        });
+      
     };
     const signOut = async () => {
       await auth.signOut();
