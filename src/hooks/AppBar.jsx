@@ -67,10 +67,11 @@ const AppBar = (props) => {
 
   function getRol() {
     if (props.moderator === true) {
-      window.open('/create','_self')
-    }
-    if (props.student === true) {
-      window.open('/apply','_self')
+      window.open("/create", "_self");
+    } else {
+      if (props.student === true) {
+        window.open("/apply", "_self");
+      }
     }
   }
 
@@ -78,20 +79,24 @@ const AppBar = (props) => {
     return (
       <Grid>
         <Segment
-          color="teal"
           textAlign="center"
           style={{ minHeight: 50, padding: "1em 0em" }}
-          vertical
         >
           <Menu fixed="top" size="large">
-            <Menu.Item active visible={false}>
+            <Menu.Item active>
               {user.data != null ? user.data.displayName : "Invitado"} 🔥
             </Menu.Item>
             <Menu.Item>
-              {props.moderator ? "Moderador" : "Estudiante"}
+              {props.moderator ? "Moderador" : user.data != null
+                ? "Estudiante"
+                : ""}
             </Menu.Item>
             <Menu.Item onClick={getRol}>
-              {props.moderator === true ? "Crear" : (user.data != null ? "Aplicar" : "")}
+              {props.moderator === true
+                ? "Crear"
+                : user.data != null
+                ? "Aplicar"
+                : ""}
             </Menu.Item>
             <Menu.Item position="right">
               <AuthenticationButtons />
