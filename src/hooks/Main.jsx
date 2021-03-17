@@ -6,6 +6,7 @@ import SignUp from "./SignUp";
 import AppBar from "./AppBar";
 import ApplyStudent from "./ApplyStudent";
 import CreateOffer from "./CreateOffer";
+import FormDia from './FormDia'
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import firebase from "firebase/app";
@@ -106,7 +107,7 @@ function Main(props) {
             <PrivateRoute
               rol={moderator}
               path="/create"
-              component={CreateOffer}
+              component={FormDia}
             />
             <Redirect to="/start" />
           </Switch>

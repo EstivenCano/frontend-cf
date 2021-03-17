@@ -9,9 +9,10 @@
 }
 .pp-container{
   display: flex;
+  flex-direction: row;
   padding-block: 100px;
   flex-flow: column wrap;
-  justify-content: space-around;
+  justify-content: center;
 }
 .button-group{
   padding-inline: 50px;
