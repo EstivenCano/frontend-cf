@@ -5,8 +5,7 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import AppBar from "./AppBar";
 import ApplyStudent from "./ApplyStudent";
-import CreateOffer from "./CreateOffer";
-import FormDia from './FormDia'
+import Announcement from './Announcement'
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import firebase from "firebase/app";
@@ -72,7 +71,7 @@ function Main(props) {
       {isBusy ? (
         <div>
           <Dimmer active inverted>
-            <Loader size="massive">Loading</Loader>
+            <Loader size="massive">Cargando...</Loader>
           </Dimmer>
         </div>
       ) : (
@@ -107,7 +106,7 @@ function Main(props) {
             <PrivateRoute
               rol={moderator}
               path="/create"
-              component={FormDia}
+              component={Announcement}
             />
             <Redirect to="/start" />
           </Switch>

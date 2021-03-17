@@ -1,0 +1,9 @@
+.principal-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.pp-container {
+  padding-inline: 100px;
+}

@@ -19,7 +19,6 @@ function FormHorario(props) {
         ...horario,
         dias: state.dias
       }));
-      console.log(horario);
     },
     [state]
   );

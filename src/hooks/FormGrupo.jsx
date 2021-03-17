@@ -20,7 +20,6 @@ function FormGrupo(props) {
       ...grupos,
       horario: state.horario,
     }));
-    console.log(grupos);
   }, [state]);
 
   return (

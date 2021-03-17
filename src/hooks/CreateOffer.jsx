@@ -1,15 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   Form,
   Grid,
   Header,
-  Segment,
-  Icon,
   Divider,
-  Container,
   TextArea,
+  GridColumn,
 } from "semantic-ui-react";
 import "../css/CreateOffer.css";
 import Date from "./DatePicker";
@@ -32,12 +29,15 @@ function FormCreateOffer(props) {
   }, [props]);
 
   const [announcement, setAnnouncement] = useState({
+    nombre: "",
     pregrado: "",
     descripcion: "",
     fecha_inicio: "",
     fecha_fin: "",
     cursos: state.cursos,
   });
+
+
 
   return (
     <>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Header, Divider } from "semantic-ui-react";
+import { Form, Header, Divider} from "semantic-ui-react";
 import FormCreateOffer from "./CreateOffer";
 
 function FormGrupo(props) {
@@ -19,7 +19,6 @@ function FormGrupo(props) {
       ...cursos,
       grupos: state.grupos,
     }));
-    console.log(cursos);
   }, [state]);
 
   return (

@@ -16,7 +16,7 @@ const Date = (props) => {
       onChange={(date) => {
         state.setStatement(state => ({
             ...state,
-            [props.name] : date
+            [props.name] : date.toLocaleTimeString
         }))
     }}
       showMonthDropdown
