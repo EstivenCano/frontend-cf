@@ -1,3 +1,11 @@
-.principal-grid{
-align-content: center;
+.principal-grid {
+  align-content: center;
+}
+.row-datepickers {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.pp-container{
+  padding-block: 100px;
 }

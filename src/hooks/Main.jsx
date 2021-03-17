@@ -46,9 +46,9 @@ function Main(props) {
             setBusy(false);
           });
       }
-      fetchData().then(()=>{
+      fetchData().then(() => {
         getRoles();
-      })
+      });
     }
   }, [user.data]);
 

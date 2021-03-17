@@ -10,7 +10,6 @@ import {
   Segment,
 } from "semantic-ui-react";
 import "../css/AppBar.css";
-import axios from "axios";
 
 const AppBar = (props) => {
   const user = useUser();
@@ -18,9 +17,7 @@ const AppBar = (props) => {
   function AuthenticationButtons() {
     const auth = useAuth();
     const signIn = async () => {
-      await auth
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      
+      await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     };
     const signOut = async () => {
       await auth.signOut();
@@ -73,7 +70,9 @@ const AppBar = (props) => {
               {user.data != null ? user.data.displayName : "Invitado"} 🔥
             </Menu.Item>
             <Menu.Item>
-              {props.moderator ? "Moderador" : user.data != null
+              {props.moderator
+                ? "Moderador"
+                : user.data != null
                 ? "Estudiante"
                 : ""}
             </Menu.Item>
