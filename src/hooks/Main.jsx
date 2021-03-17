@@ -12,6 +12,7 @@ import firebase from "firebase/app";
 import { useUser } from "reactfire";
 import axios from "axios";
 import { Loader, Dimmer } from "semantic-ui-react";
+import '../css/Main.css'
 
 function Main(props) {
   const user = useUser();

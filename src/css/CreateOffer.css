@@ -1,5 +1,6 @@
 .principal-grid {
   align-content: center;
+  justify-content: center;
 }
 .row-datepickers {
   display: flex;
@@ -7,5 +8,17 @@
   justify-content: space-around;
 }
 .pp-container{
+  display: flex;
   padding-block: 100px;
+  flex-flow: column wrap;
+  justify-content: space-around;
+}
+.button-group{
+  padding-inline: 50px;
+}
+
+.col-button{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

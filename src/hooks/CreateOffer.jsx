@@ -51,6 +51,10 @@ function FormCreateOffer() {
     cursos: cursos,
   });
 
+  const [arrayCursos, setArrayCursos] = useState([]);
+  const [countCursos, setCountCursos] = useState(1);
+
+
   useEffect(() => {
     setAnnouncement({ ...announcement, cursos: cursos });
   }, [cursos]);
@@ -67,6 +71,10 @@ function FormCreateOffer() {
     setHorario({ ...horario, dias: dias });
   }, [dias]);
 
+  useEffect(() => {
+    setArrayCursos([...arrayCursos, countCursos]);
+  }, [countCursos]);
+
   const StartDate = () => {
     return (
       <DatePicker
@@ -77,7 +85,7 @@ function FormCreateOffer() {
         }
         showMonthDropdown
         showYearDropdown
-        placeholderText="Selecciona fecha de inicio"
+        placeholderText="Fecha de inicio"
       />
     );
   };
@@ -92,7 +100,7 @@ function FormCreateOffer() {
         }
         showMonthDropdown
         showYearDropdown
-        placeholderText="Selecciona fecha de fin"
+        placeholderText="Fecha de fin"
       />
     );
   };
@@ -129,12 +137,92 @@ function FormCreateOffer() {
     );
   };
 
+  const AddCurso = () => {
+    return (
+      <div>
+        {arrayCursos.map((nCurso) => (
+          <Container textAlign="justified">
+            <Divider />
+            <Form.Group widths="16">
+              <Form.Input width="10"
+                label={
+                  <Header as="h5" color="teal" textAlign="center">
+                    Nombre de materia/curso {nCurso}
+                  </Header>
+                }
+                placeholder="Ingresa el nombre del curso/materia"
+                onChange={(e) => {
+                  setCursos({ ...cursos, curso: e.target.value });
+                }}
+              />
+              <Form.Input width='6'
+                label={
+                  <Header as="h5" color="teal" textAlign="center">
+                    Cupos
+                  </Header>
+                }
+                placeholder="Ingresa el numero"
+                onChange={(e) => {
+                  setGrupos({ ...grupos, cupos: e.target.value });
+                }}
+              />
+            </Form.Group>
+            <Form.Group widths="equal">
+              <Form.Input
+                label={
+                  <Header as="h5" color="teal" textAlign="center">
+                    Número de grupo
+                  </Header>
+                }
+                placeholder="Ingresa el numero"
+                onChange={(e) => {
+                  setGrupos({ ...grupos, grupo: e.target.value });
+                }}
+              />
+            </Form.Group>
+
+            <Grid.Row centered>
+              <Grid.Column className="col-button">
+                <Header as="h5" color="teal" textAlign="center">
+                  Selecciona el horario del curso/materia
+                </Header>
+                <Button.Group size="mini" className="button-group">
+                  <Button>L</Button>
+                  <Button>M</Button>
+                  <Button>M</Button>
+                  <Button>J</Button>
+                  <Button>V</Button>
+                  <Button>S</Button>
+                </Button.Group>
+              </Grid.Column>
+            </Grid.Row>
+            <br />
+            <Grid.Row centered className="row-datepickers">
+              <Grid.Column>
+                <Header size="small" color="teal" textAlign="center">
+                  Hora inicio
+                </Header>
+                <StartTime />
+              </Grid.Column>
+              <Grid.Column>
+                <Header size="small" color="teal" textAlign="center">
+                  Hora fin
+                </Header>
+                <FinishTime />
+              </Grid.Column>
+            </Grid.Row>
+          </Container>
+        ))}
+      </div>
+    );
+  };
+
+
   return (
-    <Container className="pp-container">
+    <Container className="pp-container" fluid>
       <Grid
         textAlign="center"
         verticalAlign="middle"
-        style={{ height: "100vh" }}
         className="principal-grid"
       >
         <Grid.Column style={{ maxWidth: 650 }}>
@@ -144,9 +232,44 @@ function FormCreateOffer() {
                 Crear una convocatoria
               </Header>
               <Divider />
+              <Form.Group widths="equal">
+                <Form.Select
+                  selection
+                  options={pregrados}
+                  onChange={(e, { value }) =>
+                    setAnnouncement({ pregrado: value })
+                  }
+                  label={
+                    <Header as="h5" color="teal" textAlign="center">
+                      Selecciona el pregrado
+                    </Header>
+                  }
+                  placeholder="Selecciona un pregrado"
+                />
+              </Form.Group>
+              <Grid.Row className="row-datepickers">
+                <Grid.Column className="column-datepickers">
+                  <Header size="tiny" color="teal" textAlign="center">
+                    Fecha inicio
+                  </Header>
+                  <StartDate />
+                </Grid.Column>
+                <Grid.Column className="column-datepickers">
+                  <Header size="tiny" color="teal" textAlign="center">
+                    Fecha fin
+                  </Header>
+                  <FinishDate />
+                </Grid.Column>
+              </Grid.Row>
+              <br />
               <Form.Group>
                 <TextArea
                   placeholder="Añade una descripción de la convocatoria"
+                  label={
+                    <Header as="h5" color="teal" textAlign="center">
+                      Añade una descripción para la convocatoria
+                    </Header>
+                  }
                   onChange={(e) => {
                     setAnnouncement({
                       ...announcement,
@@ -155,84 +278,13 @@ function FormCreateOffer() {
                   }}
                 />
               </Form.Group>
-              <Form.Group widths="equal">
-                <Form.Input
-                  label="Curso/Materia"
-                  placeholder="Ingresa el nombre del curso/materia"
-                  onChange={(e) => {
-                    setCursos({ ...cursos, curso: e.target.value });
-                  }}
-                />
-                <Form.Select
-                  selection
-                  options={pregrados}
-                  onChange={(e, { value }) => setAnnouncement({ 'pregrado': value })}
-                  label="Pregrado"
-                  placeholder="Selecciona un pregrado"
-                />
-              </Form.Group>
-              <Form.Group widths="equal">
-                <Form.Input
-                  label="Cupos"
-                  placeholder="Ingresa el numero"
-                  onChange={(e) => {
-                    setGrupos({ ...grupos, cupos: e.target.value });
-                  }}
-                />
-                <Form.Input
-                  label="Numero de Grupo"
-                  placeholder="Ingresa el numero"
-                  onChange={(e) => {
-                    setGrupos({ ...grupos, grupo: e.target.value });
-                  }}
-                />
-              </Form.Group>
-              <Header as="h5" color="teal" textAlign="center">
-                Selecciona el horario del curso/materia
-              </Header>
+              <AddCurso />
               <Grid.Row centered>
-                <Button.Group size="mini">
-                  <Button>L</Button>
-                  <Button>M</Button>
-                  <Button>M</Button>
-                  <Button>J</Button>
-                  <Button>V</Button>
-                  <Button>S</Button>
-                </Button.Group>
-              </Grid.Row>
-              <br />
-              <Grid.Row centered className="row-datepickers">
-                <Grid.Column>
-                  <Header size="small" color="teal" textAlign="center">
-                    Hora inicio
-                  </Header>
-                  <StartTime />
-                </Grid.Column>
-                <Grid.Column>
-                  <Header size="small" color="teal" textAlign="center">
-                    Hora fin
-                  </Header>
-                  <FinishTime />
-                </Grid.Column>
-              </Grid.Row>
-              <br />
-              <Grid.Row className="row-datepickers">
-                <Grid.Column className="column-datepickers">
-                  <Header size="small" color="teal" textAlign="center">
-                    Fecha inicio
-                  </Header>
-                  <StartDate />
-                </Grid.Column>
-                <Grid.Column className="column-datepickers">
-                  <Header size="small" color="teal" textAlign="center">
-                    Fecha fin
-                  </Header>
-                  <FinishDate />
-                </Grid.Column>
-              </Grid.Row>
-              <br />
-              <Grid.Row centered>
-                <Button animated="vertical" color="blue">
+                <Button
+                  animated="vertical"
+                  color="blue"
+                  onClick={() => setCountCursos(countCursos + 1)}
+                >
                   <Button.Content visible>
                     <Icon name="add" />
                   </Button.Content>
@@ -240,21 +292,6 @@ function FormCreateOffer() {
                 </Button>
               </Grid.Row>
             </Segment>
-
-            <Grid.Row centered>
-              <Button
-                animated
-                color="blue"
-                onClick={() => {
-                  console.log(announcement);
-                }}
-              >
-                <Button.Content visible>Crear convocatoria</Button.Content>
-                <Button.Content hidden>
-                  <Icon name="pencil alternate" />
-                </Button.Content>
-              </Button>
-            </Grid.Row>
           </Form>
         </Grid.Column>
       </Grid>
