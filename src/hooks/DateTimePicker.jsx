@@ -22,7 +22,7 @@ const Time = (props) => {
       showTimeSelect
       isClearable
       showTimeSelectOnly
-      timeIntervals={15}
+      timeIntervals={30}
       timeCaption="Hora"
       dateFormat="h:mm aa"
     />

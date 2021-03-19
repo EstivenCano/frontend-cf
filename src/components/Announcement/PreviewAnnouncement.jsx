@@ -17,7 +17,7 @@ import "./PreviewAnnouncement.css";
 
 const PreviewAnnouncement = () => {
   const {value} = useContext(AnnouncementContext)
-  const [announcement, setAnnouncement] = value;
+  const [announcement] = value;
 
   return (
     <Segment stacked style={{ minWidth: 600 }}>

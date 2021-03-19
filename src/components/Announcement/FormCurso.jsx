@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Form, Header, Divider } from "semantic-ui-react";
 import { AnnouncementContext } from "./AnnouncementContext";
 
 function FormCurso() {
-  const { value, value2 } = useContext(AnnouncementContext);
+  const { value, value2, nValue2 } = useContext(AnnouncementContext);
 
-  const [cursos, setCursos] = value2;
+  const [nCurso] = nValue2
+  const [cursos] = value2;
   const [announcement, setAnnouncement] = value;
 
   function handleChange(e) {
@@ -13,11 +14,11 @@ function FormCurso() {
     let cur = cursos;
     // 2. Make a shallow copy of the item you want to mutate
     let curso = {
-      ...cur[0],
+      ...cur[nCurso],
       curso: e.target.value,
     };
     // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
-    cur[0] = curso;
+    cur[nCurso] = curso;
     // 5. Set the state to our new copy
     setAnnouncement({
       ...announcement,

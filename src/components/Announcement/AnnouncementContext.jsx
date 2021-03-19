@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export const AnnouncementContext = React.createContext([{}, () => {}]);
 
@@ -28,6 +28,9 @@ export const AnnouncementProvider = (props) => {
     cursos: cursos,
   });
 
+  const [nCurso, setNCurso] = useState(0)
+  const [nGrupo, setNGrupo] = useState(0)
+
   return (
     <AnnouncementContext.Provider
       value={{
@@ -35,6 +38,8 @@ export const AnnouncementProvider = (props) => {
         value2: [cursos, setCursos],
         value3: [grupos, setGrupos],
         value4: [horarios, setHorario],
+        nValue2: [nCurso, setNCurso],
+        nValue3: [nGrupo, setNGrupo]
       }}
     >
       {props.children}

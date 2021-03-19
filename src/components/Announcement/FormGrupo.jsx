@@ -3,7 +3,9 @@ import { AnnouncementContext } from "./AnnouncementContext";
 import { Form, Header } from "semantic-ui-react";
 
 function FormGrupo() {
-  const { value, value2, value3 } = useContext(AnnouncementContext);
+  const { value, value2, value3, nValue2, nValue3 } = useContext(AnnouncementContext);
+  const [nCurso] = nValue2
+  const [nGrupo] = nValue3
   const [announcement, setAnnouncement] = value;
   const [cursos, setCursos] = value2;
   const [grupos, setGrupos] = value3;
@@ -14,18 +16,18 @@ function FormGrupo() {
     let cur = [...cursos];
     // 2. Make a shallow copy of the item you want to mutate
     let grupo = {
-      ...gru[0],
+      ...gru[nGrupo],
       [name] : event.target.value,
     };
     // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
-    gru[0] = grupo;
+    gru[nGrupo] = grupo;
     // 5. Set the state to our new copy
     setGrupos(gru);
     let curso = {
-      ...cur[0],
+      ...cur[nCurso],
       grupos: gru,
     };
-    cur[0] = curso;
+    cur[nCurso] = curso;
     setCursos(cur);
   }
 
@@ -34,6 +36,7 @@ function FormGrupo() {
       ...announcement,
       cursos: cursos,
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[cursos])
 
   return (

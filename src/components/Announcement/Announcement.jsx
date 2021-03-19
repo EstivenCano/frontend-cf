@@ -12,7 +12,7 @@ function Announcement() {
 
   const{value} = useContext(AnnouncementContext)
 
-  const[announcement, setAnnouncement] = value
+  const[announcement] = value
   return (
     <Container className="pp-container" fluid>
       <Grid className="principal-grid" columns={2}>
@@ -24,9 +24,11 @@ function Announcement() {
             <FormGrupo/>
             <FormHorario/> 
             </Form> 
+            <br/>
             <Button onClick={()=>{
               console.log(announcement)
             }}>
+              Guardar Convocatoria
             </Button>
           </Segment>
         </GridColumn>
