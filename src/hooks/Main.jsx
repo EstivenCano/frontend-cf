@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Redirect, withRouter } from "react-router-dom";
-import Start from "./Start";
+import Start from "../components/Start/Start";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import AppBar from "./AppBar";
 import ApplyStudent from "./ApplyStudent";
-import Announcement from './Announcement'
+import Announcement from "../components/Announcement/Announcement";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import firebase from "firebase/app";
 import { useUser } from "reactfire";
 import axios from "axios";
 import { Loader, Dimmer } from "semantic-ui-react";
-import '../css/Main.css'
+import "../css/Main.css";
 
 function Main(props) {
   const user = useUser();

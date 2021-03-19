@@ -2,13 +2,14 @@
     display: flex;
     flex-direction: column;
     padding-block: 120px;
-    background: url('../svg/blob.svg');
+    background: url('../../svg/blob.svg');
     background-size: cover;
 }
 
 .column-content{
     display: flex;
     flex-direction: column;
+    align-self: center;
     padding-block: 180px;
     justify-content: space-around;
     

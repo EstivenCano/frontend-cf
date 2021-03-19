@@ -1,15 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Grid,
-  Header,
-  Divider,
-  TextArea,
-  GridColumn,
-} from "semantic-ui-react";
-import "../css/CreateOffer.css";
-import Date from "./DatePicker";
+import React, { useContext} from "react";
+import { Form, Grid, Header, Divider, TextArea } from "semantic-ui-react";
+import "./CreateOffer.css";
+import Date from "../../hooks/DatePicker";
+import { AnnouncementContext } from "./AnnouncementContext";
 
 const pregrados = [
   { key: "m", text: "Ingenieria de sistemas", value: "Ingenieria de sistemas" },
@@ -22,34 +16,36 @@ const pregrados = [
 ];
 
 function FormCreateOffer(props) {
-  const [state, setState] = useState(props);
-
-  useEffect(() => {
-    setState(props);
-  }, [props]);
-
-  const [announcement, setAnnouncement] = useState({
-    nombre: "",
-    pregrado: "",
-    descripcion: "",
-    fecha_inicio: "",
-    fecha_fin: "",
-    cursos: state.cursos,
-  });
-
-
+  const {value} = useContext(AnnouncementContext)
+  const [announcement, setAnnouncement] = value;
 
   return (
     <>
       <Header as="h2" color="teal" textAlign="center">
-        Crear una convocatoria
+        Crear convocatoria
       </Header>
       <Divider />
       <Form.Group widths="equal">
+        <Form.Input
+          label={
+            <Header as="h5" color="teal" textAlign="center">
+              Nombre de la convocatoria
+            </Header>
+          }
+          onChange={(e) => {
+            setAnnouncement({
+              ...announcement,
+              nombre: e.target.value,
+            });
+          }}
+          placeholder="Nombre para la convocatoria"
+        />
         <Form.Select
           selection
           options={pregrados}
-          onChange={(e, { value }) => setAnnouncement({ pregrado: value })}
+          onChange={(e, { value }) =>
+            setAnnouncement({ ...announcement, pregrado: value })
+          }
           label={
             <Header as="h5" color="teal" textAlign="center">
               Selecciona el pregrado
@@ -85,7 +81,8 @@ function FormCreateOffer(props) {
       <br />
       <Form.Group>
         <TextArea
-          placeholder="Añade una descripción de la convocatoria"
+          maxLength="305"
+          placeholder="Añade una descripción de la convocatoria (Max 150 caracteres)"
           label={
             <Header as="h5" color="teal" textAlign="center">
               Añade una descripción para la convocatoria

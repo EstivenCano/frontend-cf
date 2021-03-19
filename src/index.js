@@ -11,7 +11,7 @@ ReactDOM.render(
     <SuspenseWithPerf
       fallback={<p>Cargando la app...</p>}
       traceId={'loading-app-status'}>
-      <App />
+        <App />
     </SuspenseWithPerf>
   </FirebaseAppProvider>,
   document.getElementById('root')
