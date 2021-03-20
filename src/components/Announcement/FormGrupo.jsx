@@ -44,6 +44,7 @@ function FormGrupo() {
       <Form.Group widths="16">
         <Form.Input
           width="8"
+          value={(grupos[nGrupo] !== undefined ? grupos[nGrupo].cupos : "")}
           label={
             <Header as="h5" color="teal" textAlign="center">
               Cupos
@@ -54,6 +55,7 @@ function FormGrupo() {
         />
         <Form.Input
           width="8"
+          value={(grupos[nGrupo] !== undefined ? grupos[nGrupo].grupo : "")}
           label={
             <Header as="h5" color="teal" textAlign="center">
               Número de grupo

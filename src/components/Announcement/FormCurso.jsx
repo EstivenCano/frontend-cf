@@ -32,6 +32,7 @@ function FormCurso() {
       <Divider />
       <Form.Group widths="16">
         <Form.Input
+          value={cursos[nCurso] !== undefined ? cursos[nCurso].curso : ""}
           width="16"
           label={
             <Header as="h5" color="teal" textAlign="center">

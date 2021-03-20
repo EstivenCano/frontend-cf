@@ -11,7 +11,7 @@ const Time = (props) => {
 
   return (
     <DatePicker
-      selected={state.hora}
+      selected={state.hora !== null ? state.hora : ""}
       onChange={(date) => {
         state.setStatement((state) => ({
           ...state,

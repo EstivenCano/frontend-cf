@@ -103,9 +103,9 @@ const PreviewAnnouncement = () => {
             </GridRow>
             <Divider />
             <GridRow centered className="row-materias">
-              {announcement.cursos.map((curso) => {
+              {announcement.cursos.map((curso,index) => {
                 return (
-                  <>
+                  <React.Fragment key={index}>
                     <GridColumn width={6} verticalAlign="middle">
                       <Header as="h4" color="blue" textAlign="center">
                         <Icon name="book" />
@@ -123,9 +123,9 @@ const PreviewAnnouncement = () => {
                         {"Grupos"}
                       </Header>
                       <GridRow>
-                        {curso.grupos !== undefined ? curso.grupos.map((grupo) => {
+                        {curso.grupos !== undefined ? curso.grupos.map((grupo,index) => {
                           return (
-                            <>
+                            <React.Fragment key={index}>
                               <GridRow>
                                 <Header
                                   textAlign="center"
@@ -182,12 +182,12 @@ const PreviewAnnouncement = () => {
                                 </Header>
                               </GridColumn>
                               <Divider/>
-                            </>
+                            </React.Fragment>
                           );
                         }) : <></>}
                       </GridRow>
                     </GridColumn>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </GridRow>

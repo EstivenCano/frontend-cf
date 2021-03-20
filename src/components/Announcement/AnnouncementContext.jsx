@@ -21,6 +21,7 @@ export const AnnouncementProvider = (props) => {
   }])
 
   const [announcement, setAnnouncement] = useState({
+    nombre: "",
     pregrado: "",
     descripcion: "",
     fecha_inicio: "",

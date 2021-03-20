@@ -101,7 +101,7 @@ function FormHorario() {
       horarios.h_inicio !== null &&
       horarios.h_fin !== "" &&
       horarios.h_fin !== null &&
-      horarios.dias.length !== 0
+      horarios.dias !== undefined
     ) {
       complete = true;
     } else {
@@ -124,22 +124,44 @@ function FormHorario() {
     return complete;
   }
 
-  function addCurso() {
+  function clear() {
+    setHorario({ dias: [], h_inicio: "", h_fin: "" })
+    setGrupos([{
+      cupos: "",
+      grupo: "",
+      horario: horarios,
+    }])    
+  }
+
+  function addCurso(callback) {
     if (validarCurso()) {
-      setNCurso(nCurso + 1)
-      setNGrupo(0)
-    }else{
-      console.log("Debes ingresar toda la información requerida antes de crear otro curso")
+      setNCurso(nCurso + 1);
+      setNGrupo(0);
+      clear()
+    } else {
+      console.log(
+        "Debes ingresar toda la información requerida antes de crear otro curso"
+      );
     }
   }
 
   function addGrupo() {
-    if(validarGrupo()){
-      setNGrupo(nGrupo + 1)
-    }else{
-      console.log("Debes ingresar toda la información requerida antes de crear otro grupo")
+    if (validarGrupo()) {
+      setNGrupo(nGrupo + 1);
+    } else {
+      console.log(
+        "Debes ingresar toda la información requerida antes de crear otro grupo"
+      );
     }
-    
+  }
+
+  function clearButtons() {
+    setBLunes(false);
+    setBMartes(false);
+    setBMiercoles(false);
+    setBJueves(false);
+    setBViernes(false);
+    setBSabado(false);
   }
 
   return (
@@ -216,7 +238,7 @@ function FormHorario() {
           <Time
             setStatement={setHorario}
             name="h_inicio"
-            hora={horarios.h_inicio}
+            hora={horarios !== undefined ? horarios.h_inicio : ""}
             placeHolder="Hora de inicio"
           />
         </Grid.Column>
@@ -227,20 +249,38 @@ function FormHorario() {
           <Time
             setStatement={setHorario}
             name="h_fin"
-            hora={horarios.h_fin}
+            hora={horarios !== undefined ? horarios.h_fin : ""}
             placeHolder="Hora de fin"
           />
         </Grid.Column>
       </Grid.Row>
       <br />
       <GridRow className="row-buttons">
-        <Button primary animated onClick={addGrupo} disabled={!validarGrupo()}>
+        <Button
+          primary
+          animated
+          onClick={() => {
+            addGrupo();
+            setHorario({ dias: [], h_inicio: "", h_fin: "" });
+            clearButtons();
+          }}
+          disabled={!validarGrupo()}
+        >
           <ButtonContent visible>Añadir grupo</ButtonContent>
           <Button.Content hidden>
             <Icon name="add" />
           </Button.Content>
         </Button>
-        <Button primary animated onClick={addCurso} disabled={!validarCurso()}>
+        <Button
+          primary
+          animated
+          onClick={() => {
+            addCurso(
+              clearButtons(),
+            );
+          }}
+          disabled={!validarCurso()}
+        >
           <ButtonContent visible>Añadir curso</ButtonContent>
           <Button.Content hidden>
             <Icon name="add" />
