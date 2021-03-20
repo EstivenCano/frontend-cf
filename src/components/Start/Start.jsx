@@ -43,6 +43,9 @@ const Start = () => {
             <Educate width="100%" height="100%"></Educate>
           </GridColumn>
         </GridRow>
+        <GridRow>
+          
+        </GridRow>
       </Grid>
     </Container>
   );
