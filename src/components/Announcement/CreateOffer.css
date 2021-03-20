@@ -1,0 +1,30 @@
+.principal-grid {
+  align-content: center;
+  justify-content: center;
+}
+.row-datepickers {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.pp-container{
+  display: flex;
+  flex-direction: row;
+  padding-block: 100px;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+.button-group{
+  padding-inline: 50px;
+}
+
+.col-button{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.row-buttons{
+  display: flex;
+  justify-content: space-around;
+}

@@ -10,7 +10,6 @@ import {
   Segment,
 } from "semantic-ui-react";
 import "../css/AppBar.css";
-import axios from "axios";
 
 const AppBar = (props) => {
   const user = useUser();
@@ -18,23 +17,7 @@ const AppBar = (props) => {
   function AuthenticationButtons() {
     const auth = useAuth();
     const signIn = async () => {
-      await auth
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        .then((result) => {
-          var googleUser = result.user;
-          console.log(googleUser.email);
-          if (googleUser) {
-            async function fetchData() {
-              const result = await axios.post(
-                `http://localhost:3001/addUser/${googleUser.email}`
-              );
-              console.log(result.data.mensaje);
-            }
-            return fetchData();
-          } else {
-            return console.log("Null profile");
-          }
-        });
+      await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     };
     const signOut = async () => {
       await auth.signOut();
@@ -67,10 +50,11 @@ const AppBar = (props) => {
 
   function getRol() {
     if (props.moderator === true) {
-      window.open('/create','_self')
-    }
-    if (props.student === true) {
-      window.open('/apply','_self')
+      window.open("/create", "_self");
+    } else {
+      if (props.student === true) {
+        window.open("/apply", "_self");
+      }
     }
   }
 
@@ -78,20 +62,26 @@ const AppBar = (props) => {
     return (
       <Grid>
         <Segment
-          color="teal"
           textAlign="center"
           style={{ minHeight: 50, padding: "1em 0em" }}
-          vertical
         >
           <Menu fixed="top" size="large">
-            <Menu.Item active visible={false}>
+            <Menu.Item active>
               {user.data != null ? user.data.displayName : "Invitado"} 🔥
             </Menu.Item>
             <Menu.Item>
-              {props.moderator ? "Moderador" : "Estudiante"}
+              {props.moderator
+                ? "Moderador"
+                : user.data != null
+                ? "Estudiante"
+                : ""}
             </Menu.Item>
             <Menu.Item onClick={getRol}>
-              {props.moderator === true ? "Crear" : (user.data != null ? "Aplicar" : "")}
+              {props.moderator === true
+                ? "Crear"
+                : user.data != null
+                ? "Aplicar"
+                : ""}
             </Menu.Item>
             <Menu.Item position="right">
               <AuthenticationButtons />

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Redirect, withRouter } from "react-router-dom";
-import Start from "./Start";
+import Start from "../components/Start/Start";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import AppBar from "./AppBar";
 import ApplyStudent from "./ApplyStudent";
-import CreateOffer from "./CreateOffer";
+import Announcement from "../components/Announcement/Announcement";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import firebase from "firebase/app";
 import { useUser } from "reactfire";
 import axios from "axios";
 import { Loader, Dimmer } from "semantic-ui-react";
-
+import "../css/Main.css";
 
 function Main(props) {
   const user = useUser();
@@ -26,6 +26,12 @@ function Main(props) {
   useEffect(() => {
     setBusy(true);
     if (user.data != null) {
+      async function fetchData() {
+        const result = await axios.post(
+          `http://localhost:3001/addUser/${user.data.email}`
+        );
+        console.log(result.data.mensaje);
+      }
       function getRoles() {
         axios
           .get(`http://localhost:3001/roles/${user.data.email}`)
@@ -41,7 +47,9 @@ function Main(props) {
             setBusy(false);
           });
       }
-      getRoles();
+      fetchData().then(() => {
+        getRoles();
+      });
     }
   }, [user.data]);
 
@@ -63,7 +71,7 @@ function Main(props) {
       {isBusy ? (
         <div>
           <Dimmer active inverted>
-            <Loader size="massive">Loading</Loader>
+            <Loader size="massive">Cargando...</Loader>
           </Dimmer>
         </div>
       ) : (
@@ -98,7 +106,7 @@ function Main(props) {
             <PrivateRoute
               rol={moderator}
               path="/create"
-              component={CreateOffer}
+              component={Announcement}
             />
             <Redirect to="/start" />
           </Switch>
