@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AnnouncementContext } from "./AnnouncementContext";
 import {
   Image,
@@ -16,10 +16,17 @@ import {
 } from "semantic-ui-react";
 import "./PreviewAnnouncement.css";
 
-const PreviewAnnouncement = () => {
+const PreviewAnnouncement = (props) => {
+
   const { value } = useContext(AnnouncementContext);
-  const [announcement] = value;
+  const [announcement] = value
   const [visible, setVisible] = useState(false);
+  const [ann, setAnn] = useState({})
+
+  useEffect(()=>{
+    setAnn(props.announcement)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   return (
     <Segment stacked style={{ minWidth: 600 }}>
@@ -40,18 +47,18 @@ const PreviewAnnouncement = () => {
                   <Icon name="calendar alternate" />
                   Inicio
                   <Label.Detail>
-                    {announcement.fecha_inicio != null
+                    {ann.fecha_inicio !== undefined ?  ann.fecha_inicio.toString().slice(0, 10) : (announcement.fecha_inicio != null
                       ? announcement.fecha_inicio.toString().slice(4, 16)
-                      : ""}
+                      : "")}
                   </Label.Detail>
                 </Label>
                 <Label as="a" color="red" image>
                   <Icon name="calendar alternate" />
                   Fin
                   <Label.Detail>
-                    {announcement.fecha_fin != null
+                    {ann.fecha_fin !== undefined ?  ann.fecha_fin.toString().slice(0, 10) : (announcement.fecha_fin != null
                       ? announcement.fecha_fin.toString().slice(4, 16)
-                      : ""}
+                      : "")}
                   </Label.Detail>
                 </Label>
               </GridRow>
@@ -60,11 +67,11 @@ const PreviewAnnouncement = () => {
           <GridColumn width={7}>
             <Header as="h3" color="teal" textAlign="center">
               <Icon name="graduation" />
-              {announcement.nombre}
+              {ann !== undefined ?  ann.nombre : announcement.nombre}
             </Header>
             <GridRow>
               <Header as="h4" color="teal" attached="top">
-                <strong>Pregrado: </strong> {announcement.pregrado}
+                <strong>Pregrado: </strong> {ann !== undefined ?  ann.pregrado : announcement.pregrado}
               </Header>
               <Header
                 as="h4"
@@ -73,7 +80,7 @@ const PreviewAnnouncement = () => {
                 attached
                 style={{ maxHeight: 215 }}
               >
-                {announcement.descripcion}
+                {ann !== undefined ?  ann.descripcion : announcement.descripcion}
               </Header>
             </GridRow>
           </GridColumn>
@@ -103,7 +110,7 @@ const PreviewAnnouncement = () => {
             </GridRow>
             <Divider />
             <GridRow centered className="row-materias">
-              {announcement.cursos.map((curso,index) => {
+              {ann.cursos.map((curso,index) => {
                 return (
                   <React.Fragment key={index}>
                     <GridColumn width={6} verticalAlign="middle">
@@ -163,7 +170,7 @@ const PreviewAnnouncement = () => {
                                           {grupo.horario !== undefined
                                             ? grupo.horario.h_inicio
                                                 .toString()
-                                                .slice(15, 25)
+                                                .slice(11,16)
                                             : ""}
                                         </Label.Detail>
                                       </Label>
@@ -173,7 +180,7 @@ const PreviewAnnouncement = () => {
                                           {grupo.horario !== undefined
                                             ? grupo.horario.h_fin
                                                 .toString()
-                                                .slice(15, 25)
+                                                .slice(11,16)
                                             : ""}
                                         </Label.Detail>
                                       </Label>
