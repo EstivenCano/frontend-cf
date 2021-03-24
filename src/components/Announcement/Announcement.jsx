@@ -9,7 +9,8 @@ import {
   Segment,
   Form,
   Button,
-  Confirm
+  Confirm,
+  GridRow,
 } from "semantic-ui-react";
 import PreviewAnnouncement from "./PreviewAnnouncement";
 import { AnnouncementContext } from "./AnnouncementContext";
@@ -23,17 +24,16 @@ function Announcement() {
   const [disable, setDisable] = useState(true);
   const [open, setOpen] = useState(false);
 
-
   async function addConvocatoria() {
     if (!disable) {
       await axios
         .post(`http://localhost:3001/createAnnouncement`, announcement)
         .then((res) => {
           console.log(res.data);
-          setOpen(false)
+          setOpen(false);
         });
-    }else{
-      console.log("No pudo agregarse la convocatoria")
+    } else {
+      console.log("No pudo agregarse la convocatoria");
     }
   }
 
@@ -57,32 +57,42 @@ function Announcement() {
 
   return (
     <Container className="pp-container" fluid>
-      <Grid className="principal-grid" columns={2}>
-        <GridColumn width={7}>
-          <Segment>
-            <Form>
-              <FormCreateOffer />
-              <FormCurso />
-              <FormGrupo />
-              <FormHorario />
-            </Form>
-            <br />
-            <Button onClick={()=>{setOpen(true)}} color="green" disabled={disable}>
-              Guardar Convocatoria
-            </Button>
-            <Confirm
-              open={open}
-              content='¿Quieres publicar la convocatoria?'
-              cancelButton='Cancelar'
-              confirmButton="Si, Publicar"
-              onCancel={() =>{setOpen(false)}}
-              onConfirm={addConvocatoria}
-            />
-          </Segment>
-        </GridColumn>
-        <GridColumn width={9}>
-          <PreviewAnnouncement />
-        </GridColumn>
+      <Grid className="principal-grid" columns={2} verticalAlign="middle">
+        <GridRow className='row-content'>
+          <GridColumn width={7}>
+            <Segment>
+              <Form>
+                <FormCreateOffer />
+                <FormCurso />
+                <FormGrupo />
+                <FormHorario />
+              </Form>
+              <br />
+              <Button
+                onClick={() => {
+                  setOpen(true);
+                }}
+                color="green"
+                disabled={disable}
+              >
+                Guardar Convocatoria
+              </Button>
+              <Confirm
+                open={open}
+                content="¿Quieres publicar la convocatoria?"
+                cancelButton="Cancelar"
+                confirmButton="Si, Publicar"
+                onCancel={() => {
+                  setOpen(false);
+                }}
+                onConfirm={addConvocatoria}
+              />
+            </Segment>
+          </GridColumn>
+          <GridColumn width={9}>
+            <PreviewAnnouncement />
+          </GridColumn>
+        </GridRow>
       </Grid>
     </Container>
   );
