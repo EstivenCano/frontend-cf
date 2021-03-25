@@ -29,6 +29,12 @@ export const AnnouncementProvider = (props) => {
     cursos: cursos,
   });
 
+  const [applyInfo, setApplyInfo] = useState({
+    id_convocatoria:'',
+    materia: '',
+    id_grupo:'',
+  })
+
   const [nCurso, setNCurso] = useState(0)
   const [nGrupo, setNGrupo] = useState(0)
 
@@ -39,6 +45,7 @@ export const AnnouncementProvider = (props) => {
         value2: [cursos, setCursos],
         value3: [grupos, setGrupos],
         value4: [horarios, setHorario],
+        value5: [applyInfo, setApplyInfo],
         nValue2: [nCurso, setNCurso],
         nValue3: [nGrupo, setNGrupo]
       }}

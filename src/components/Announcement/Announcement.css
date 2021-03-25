@@ -7,3 +7,7 @@
 .pp-container {
   padding-inline: 100px;
 }
+
+.stick-column{
+  position: sticky;
+}

@@ -69,12 +69,8 @@ const AppBar = (props) => {
             <Menu.Item active>
               {user.data != null ? user.data.displayName : "Invitado"} 🔥
             </Menu.Item>
-            <Menu.Item>
-              {props.moderator
-                ? "Moderador"
-                : user.data != null
-                ? "Estudiante"
-                : ""}
+            <Menu.Item href='/start'>
+              Inicio
             </Menu.Item>
             <Menu.Item onClick={getRol}>
               {props.moderator === true
