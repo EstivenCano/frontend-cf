@@ -33,7 +33,10 @@ const Start = () => {
       .get(`http://localhost:3001/announcements`)
       .then((respuesta) => {
         respuesta.data.ok.forEach((doc) => {
-          setAnnouncements((announcements) => [...announcements, doc.data]);
+          setAnnouncements((announcements) => [...announcements,{
+            id: doc.id,
+            data: doc.data
+          } ]);
         });
       })
       .finally(() => {
@@ -120,9 +123,9 @@ const Start = () => {
         </GridColumn>
         <GridColumn id="column-announcement">
           {!isBusy ? (
-            announcements.map((announcement, index) => {
+            announcements.map((announcement) => {
               return (
-                <PreviewAnnouncement key={index} announcement={announcement} />
+                <PreviewAnnouncement key={announcement.id} id_ann={announcement.id} announcement={announcement.data} />
               );
             })
           ) : (

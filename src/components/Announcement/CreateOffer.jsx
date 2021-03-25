@@ -81,7 +81,7 @@ function FormCreateOffer(props) {
       <br />
       <Form.Group>
         <TextArea
-          maxLength="305"
+          maxLength="352"
           placeholder="Añade una descripción de la convocatoria (Max 150 caracteres)"
           label={
             <Header as="h5" color="teal" textAlign="center">

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   Button,
   Form,
@@ -10,9 +10,12 @@ import {
   Container,
   Divider,
 } from "semantic-ui-react";
+import { AnnouncementContext } from "../components/Announcement/AnnouncementContext";
+import ApplyDimmer from "../components/Apply/Dimmer";
 import "../css/ApplyStudent.css";
 import "firebase/storage";
 import firebase from "firebase/app";
+import axios from "axios";
 
 const institutos = [
   {
@@ -28,11 +31,16 @@ const institutos = [
   },
 ];
 
-function FormApplyStudent() {
+const FormApplyStudent = (props) => {
   const btnRef = useRef();
   const btnRef2 = useRef();
-
-  const [appliForm, setAppliForm] = useState({
+  const [active, setActive] = useState(false);
+  const [complete, setComplete] = useState(true);
+  const { value5 } = useContext(AnnouncementContext);
+  const [applyInfo] = value5;
+  const [authorization, setAuthorization] = useState(null);
+  const [letter, setLetter] = useState(null);
+  const [applyForm, setapplyForm] = useState({
     documento: "",
     nombres: "",
     apellidos: "",
@@ -43,43 +51,44 @@ function FormApplyStudent() {
     docente: "",
     c_docente: "",
   });
-  const [authorization, setAuthorization] = useState(null);
-  const [letter, setLetter] = useState(null);
-
-  useEffect(() => {
-    console.log(appliForm);
-  }, [appliForm]);
 
   function handleChange(e, name) {
-    setAppliForm({
-      ...appliForm,
+    setapplyForm({
+      ...applyForm,
       [name]: e.target.value,
     });
-    console.log(appliForm);
   }
 
-  function onSubmit() {
+  async function onSubmit() {
+    setActive(true);
     const storageRef = firebase.storage().ref();
-    if (letter !== null) {
-      const letterRef = storageRef.child("letters/" + appliForm.documento);
-      console.log(letter);
-      letterRef.put(letter).then(function (snapshot) {
-        console.log("Uploaded a blob or file!");
+    await axios
+      .post(`http://localhost:3001/createRequest`, { applyForm, applyInfo })
+      .then((res) => {
+        if (letter !== null) {
+          const letterRef = storageRef.child("letters/" + applyForm.documento);
+          letterRef.put(letter).then(function (snapshot) {
+            console.log("Archivo subido a la nube!");
+          });
+        }
+        if (authorization !== null) {
+          const authoRef = storageRef.child(
+            "authorizations/" + applyForm.documento
+          );
+          authoRef
+            .put(letter)
+            .then(function (snapshot) {
+              console.log("Archivo subido a la nube!");
+              completed();
+            })
+        }
       });
-    }
-    if (authorization !== null) {
-      const authoRef = storageRef.child("authorizations/" + appliForm.documento);
-      console.log(letter);
-      authoRef.put(letter).then(function (snapshot) {
-        console.log("Uploaded a blob or file!");
-      });
-    }
   }
 
   function validarInfo() {
     let isComplete = true;
-    for (const property in appliForm) {
-      const value = appliForm[property];
+    for (const property in applyForm) {
+      const value = applyForm[property];
       if (value === "") isComplete = false;
     }
     return isComplete;
@@ -90,6 +99,14 @@ function FormApplyStudent() {
       return true;
     }
     return false;
+  }
+
+  function desactivate() {
+    setActive(false);
+  }
+
+  function completed() {
+    setComplete(true ? false : true);
   }
 
   return (
@@ -141,7 +158,7 @@ function FormApplyStudent() {
                     label="Instituto"
                     placeholder="Selecciona tu instituto"
                     onChange={(e, { value }) =>
-                      setAppliForm({ ...appliForm, instituto: value })
+                      setapplyForm({ ...applyForm, instituto: value })
                     }
                   />
                 </Form.Group>
@@ -250,8 +267,13 @@ function FormApplyStudent() {
           </Grid.Column>
         </GridRow>
       </Grid>
+      <ApplyDimmer
+        active={active}
+        desactivate={desactivate}
+        complete={complete}
+      />
     </Container>
   );
-}
+};
 
 export default FormApplyStudent;

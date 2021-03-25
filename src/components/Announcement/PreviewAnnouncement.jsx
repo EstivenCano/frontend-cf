@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from 'react-router-dom'
 import { AnnouncementContext } from "./AnnouncementContext";
 import {
   Image,
@@ -17,16 +18,27 @@ import {
 import "./PreviewAnnouncement.css";
 
 const PreviewAnnouncement = (props) => {
-  const { value } = useContext(AnnouncementContext);
+  const { value, value5 } = useContext(AnnouncementContext);
   const [announcement] = value;
+  const [applyInfo, setApplyInfo] = value5;
   const [visible, setVisible] = useState(false);
   const [ann, setAnn] = useState({});
+  const apply = useHistory()
 
   useEffect(() => {
     setAnn(props.announcement);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [announcement]);
 
+  function clickApply(curso, grupo) {
+    setApplyInfo({
+      ...applyInfo,
+      id_convocatoria: props.id_ann,
+      materia: curso,
+      id_grupo: grupo,
+    });
+    apply.push('/apply')
+  }
   return (
     <Segment stacked style={{ minWidth: 600 }}>
       <Grid columns={2}>
@@ -78,7 +90,7 @@ const PreviewAnnouncement = (props) => {
                 {ann !== undefined ? ann.pregrado : announcement.pregrado}
               </Header>
               <Header
-                as="h4"
+                as="h5"
                 color="grey"
                 textAlign="justified"
                 attached
@@ -198,7 +210,12 @@ const PreviewAnnouncement = (props) => {
                                             animated="vertical"
                                             color="blue"
                                             fluid
-                                            href='/apply'
+                                            onClick={() => {
+                                              clickApply(
+                                                curso.curso,
+                                                grupo.grupo
+                                              );
+                                            }}
                                           >
                                             <ButtonContent visible>
                                               Aplicar
@@ -281,7 +298,7 @@ const PreviewAnnouncement = (props) => {
                                                 {grupo.horario !== undefined
                                                   ? grupo.horario.h_inicio
                                                       .toString()
-                                                      .slice(11, 16)
+                                                      .slice(16, 21)
                                                   : ""}
                                               </Label.Detail>
                                             </Label>
@@ -291,7 +308,7 @@ const PreviewAnnouncement = (props) => {
                                                 {grupo.horario !== undefined
                                                   ? grupo.horario.h_fin
                                                       .toString()
-                                                      .slice(11, 16)
+                                                      .slice(16, 21)
                                                   : ""}
                                               </Label.Detail>
                                             </Label>
