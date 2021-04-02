@@ -4,7 +4,8 @@ import Start from "../components/Start/Start";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import AppBar from "./AppBar";
-import ApplyStudent from "./ApplyStudent";
+import ApplyStudent from "../components/Apply/ApplyStudent";
+import ApplyList from "../components/Apply/ApplyList";
 import Announcement from "../components/Announcement/Announcement";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
@@ -23,6 +24,10 @@ function Main(props) {
   const [manager, setManager] = useState(false);
   const [teacher, setTeacher] = useState(false);
 
+  /**
+   * Añade el usuario a la DB si es us nuev
+   * Obtiene su rol para administrar sus permisos
+   */
   useEffect(() => {
     setBusy(true);
     if (user.data != null) {
@@ -53,6 +58,9 @@ function Main(props) {
     }
   }, [user.data]);
 
+  /**
+   * Verifica si el usuario esta logeado y reestablece los hooks a false. 
+   */
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
       setLogged(true);
@@ -66,6 +74,9 @@ function Main(props) {
     }
   });
 
+  /**Verifica si esta ocupado con una petición, si lo está renderiza la pantalla de carga
+   * si no, renderiza las rutas.
+   */
   return (
     <div>
       {isBusy ? (
@@ -107,6 +118,11 @@ function Main(props) {
               rol={moderator}
               path="/create"
               component={Announcement}
+            />
+            <PrivateRoute
+              rol={moderator}
+              path="/applylist"
+              component={ApplyList}
             />
             <Redirect to="/start" />
           </Switch>

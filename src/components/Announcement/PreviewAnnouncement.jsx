@@ -34,7 +34,9 @@ const PreviewAnnouncement = (props) => {
     setApplyInfo({
       ...applyInfo,
       id_convocatoria: props.id_ann,
+      convocatoria: ann.nombre,
       materia: curso,
+      pregrado: ann.pregrado,
       id_grupo: grupo,
     });
     apply.push('/apply')

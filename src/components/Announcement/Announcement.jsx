@@ -33,7 +33,7 @@ function Announcement() {
         .then((res) => {
           console.log(res.data);
           setOpen(false);
-          backTo.push('start')
+          backTo.goBack('start')
         });
     } else {
       console.log("No pudo agregarse la convocatoria");

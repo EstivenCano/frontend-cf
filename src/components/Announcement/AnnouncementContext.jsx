@@ -31,8 +31,10 @@ export const AnnouncementProvider = (props) => {
 
   const [applyInfo, setApplyInfo] = useState({
     id_convocatoria:'',
+    convocatoria: '',
     materia: '',
     id_grupo:'',
+    pregrado: ''
   })
 
   const [nCurso, setNCurso] = useState(0)
