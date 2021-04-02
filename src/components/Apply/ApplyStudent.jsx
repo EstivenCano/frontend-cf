@@ -10,9 +10,9 @@ import {
   Container,
   Divider,
 } from "semantic-ui-react";
-import { AnnouncementContext } from "../components/Announcement/AnnouncementContext";
-import ApplyDimmer from "../components/Apply/Dimmer";
-import "../css/ApplyStudent.css";
+import { AnnouncementContext } from "../Announcement/AnnouncementContext";
+import ApplyDimmer from "./Dimmer";
+import "./ApplyStudent.css";
 import "firebase/storage";
 import firebase from "firebase/app";
 import axios from "axios";
@@ -76,7 +76,7 @@ const FormApplyStudent = (props) => {
             "authorizations/" + applyForm.documento
           );
           authoRef
-            .put(letter)
+            .put(authorization)
             .then(function (snapshot) {
               console.log("Archivo subido a la nube!");
               completed();

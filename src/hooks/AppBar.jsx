@@ -51,11 +51,7 @@ const AppBar = (props) => {
   function getRol() {
     if (props.moderator === true) {
       window.open("/create", "_self");
-    } else {
-      if (props.student === true) {
-        window.open("/apply", "_self");
-      }
-    }
+    } 
   }
 
   function AppB() {

@@ -7,7 +7,7 @@ const ApplyDimmer = (props) => {
 
     function Back() {
         props.desactivate()
-        backTo.push('/start')
+        backTo.push("/start", {from: "apply"})
     }
   return (
     <Dimmer active={props.active} page>
