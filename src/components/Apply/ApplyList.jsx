@@ -7,7 +7,6 @@ import {
   Grid,
   Icon,
   Label,
-  Menu,
   Table,
   Dimmer,
   Loader,
@@ -20,10 +19,18 @@ const ApplyList = () => {
   const [isBusy, setIsBusy] = useState(true);
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
+  const [student, setStudent] = useState({});
 
   useEffect(() => {
     getRequests();
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(student).length !== 0) {
+      ApproveStudent();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [student]);
 
   function getRequests() {
     setIsBusy(true);
@@ -31,6 +38,18 @@ const ApplyList = () => {
       .get(`http://localhost:3001/getRequests`)
       .then((respuesta) => {
         setRequests(respuesta.data.requests);
+      })
+      .then(() => {
+        setIsBusy(false);
+      });
+  }
+
+  async function ApproveStudent() {
+    setIsBusy(true);
+    await axios
+      .post(`http://localhost:3001/addApprovedStudent`, student)
+      .then((respuesta) => {
+        setOpen(false);
       })
       .then(() => {
         setIsBusy(false);
@@ -56,7 +75,7 @@ const ApplyList = () => {
       })
       .catch(function (error) {
         // Handle any errors
-        console.log(error)
+        console.log(error);
       });
   }
 
@@ -83,7 +102,7 @@ const ApplyList = () => {
                 return (
                   <Table.Row key={request.id}>
                     <Table.Cell>
-                      <Label ribbon color='blue'></Label>
+                      <Label ribbon color="blue"></Label>
                       {request.data.convocatoria}
                     </Table.Cell>
                     <Table.Cell>{request.data.pregrado}</Table.Cell>
@@ -108,9 +127,7 @@ const ApplyList = () => {
             </Table.Body>
             <Table.Footer>
               <Table.Row>
-                <Table.HeaderCell colSpan="5">
-                  
-                </Table.HeaderCell>
+                <Table.HeaderCell colSpan="5"></Table.HeaderCell>
               </Table.Row>
             </Table.Footer>
           </Table>
@@ -202,7 +219,14 @@ const ApplyList = () => {
                         <Button.Group>
                           <Button>Rechazar</Button>
                           <Button.Or />
-                          <Button positive>Seleccionar</Button>
+                          <Button
+                            positive
+                            onClick={() => {
+                              setStudent(requests[index].data);
+                            }}
+                          >
+                            Seleccionar
+                          </Button>
                         </Button.Group>
                       </Table.Cell>
                     </Table.Row>
@@ -220,6 +244,9 @@ const ApplyList = () => {
               />
             </Modal.Actions>
           </Modal>
+          <Dimmer active={open}>
+            <Loader size="massive">Cargando...</Loader>
+          </Dimmer>
         </Grid>
       )}
     </Container>

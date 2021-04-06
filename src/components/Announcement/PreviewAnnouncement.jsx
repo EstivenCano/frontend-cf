@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from 'react-router-dom'
 import { AnnouncementContext } from "./AnnouncementContext";
 import {
   Image,
@@ -23,7 +22,6 @@ const PreviewAnnouncement = (props) => {
   const [applyInfo, setApplyInfo] = value5;
   const [visible, setVisible] = useState(false);
   const [ann, setAnn] = useState({});
-  const apply = useHistory()
 
   useEffect(() => {
     setAnn(props.announcement);
@@ -39,7 +37,7 @@ const PreviewAnnouncement = (props) => {
       pregrado: ann.pregrado,
       id_grupo: grupo,
     });
-    apply.push('/apply')
+    window.open('/apply', '_self')
   }
   return (
     <Segment stacked style={{ minWidth: 600 }}>
