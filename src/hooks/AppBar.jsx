@@ -51,7 +51,13 @@ const AppBar = (props) => {
   function getRol() {
     if (props.moderator === true) {
       window.open("/create", "_self");
-    } 
+    }
+    else{
+      if (props.manager === true) {
+        window.open("/applylist", "_self");
+      }
+    }
+    
   }
 
   function AppB() {
@@ -65,14 +71,14 @@ const AppBar = (props) => {
             <Menu.Item active>
               {user.data != null ? user.data.displayName : "Invitado"} 🔥
             </Menu.Item>
-            <Menu.Item href='/start'>
-              Inicio
-            </Menu.Item>
+            <Menu.Item href="/start">Inicio</Menu.Item>
             <Menu.Item onClick={getRol}>
               {props.moderator === true
                 ? "Crear"
-                : user.data != null
-                ? "Aplicar"
+                : props.manager === true
+                ? "Lista de aplicaciones"
+                : props.teacher === true
+                ? "Observaciones"
                 : ""}
             </Menu.Item>
             <Menu.Item position="right">

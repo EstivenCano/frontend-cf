@@ -120,7 +120,7 @@ function Main(props) {
               component={Announcement}
             />
             <PrivateRoute
-              rol={moderator}
+              rol={manager}
               path="/applylist"
               component={ApplyList}
             />
