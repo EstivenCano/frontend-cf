@@ -15,16 +15,19 @@ import {
 } from "semantic-ui-react";
 
 const ApplyList = () => {
+  // State variables
   const [requests, setRequests] = useState({});
   const [isBusy, setIsBusy] = useState(true);
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
   const [student, setStudent] = useState({});
 
+  // Get all the requests when component did mount
   useEffect(() => {
     getRequests();
   }, []);
 
+  // Call approveStudent function when student changes.
   useEffect(() => {
     if (Object.keys(student).length !== 0) {
       ApproveStudent();
@@ -32,6 +35,10 @@ const ApplyList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [student]);
 
+  /**
+   * getRequest function
+   * isBusy = false when promise finish
+   */
   function getRequests() {
     setIsBusy(true);
     axios
@@ -44,18 +51,27 @@ const ApplyList = () => {
       });
   }
 
+  /**
+   * Store the student on the specific Firestore collection
+   */
   async function ApproveStudent() {
     setIsBusy(true);
     await axios
-      .post(`http://localhost:3001/addApprovedStudent`, student)
+      .post(`http://localhost:3001/addApprovedStudent/${requests[index].id}`, student)
       .then((respuesta) => {
         setOpen(false);
+        getRequests();
       })
       .then(() => {
         setIsBusy(false);
       });
   }
 
+  /**
+   * getDocumentUrl takes two params and returns the document's url.
+   * @param {*} folder folder where is the document
+   * @param {*} file name of the file
+   */
   async function getDocumentUrl(folder, file) {
     const storageRef = firebase.storage().ref();
 

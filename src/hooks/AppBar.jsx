@@ -9,7 +9,6 @@ import {
   Menu,
   Segment,
 } from "semantic-ui-react";
-import "../css/AppBar.css";
 
 const AppBar = (props) => {
   const user = useUser();

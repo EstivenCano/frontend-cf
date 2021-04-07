@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+/**
+ * Se le asigna props al estado y se toma el atributo
+ * de nombre para asignarle la fecha seleccionada.
+ */
+
 const Date = (props) => {
   const [state, setState] = useState(props);
 
@@ -14,11 +19,11 @@ const Date = (props) => {
       selected={state.date}
       isClearable
       onChange={(date) => {
-        state.setStatement(state => ({
-            ...state,
-            [props.name] : date
-        }))
-    }}
+        state.setStatement((state) => ({
+          ...state,
+          [props.name]: date,
+        }));
+      }}
       showMonthDropdown
       showYearDropdown
       placeholderText={props.placeholder}

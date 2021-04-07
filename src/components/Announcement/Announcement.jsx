@@ -20,11 +20,16 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 function Announcement() {
+  // State variables
   const { value } = useContext(AnnouncementContext);
   const [announcement] = value;
   const [disable, setDisable] = useState(true);
   const [open, setOpen] = useState(false);
   const backTo = useHistory()
+
+  /**
+   *  Add the announcement to Firestore
+   */
 
   async function addConvocatoria() {
     if (!disable) {
@@ -40,6 +45,10 @@ function Announcement() {
     }
   }
 
+  /**
+   * Check if the announcement has an empty attribute or is null
+   * and enable or disable the button to add it
+   */
   function enableButton() {
     if (
       announcement !== null &&
@@ -52,6 +61,11 @@ function Announcement() {
       setDisable(true);
     }
   }
+
+  /**
+   * Call enableButton function to verify the announcement
+   * when announcement changes.
+   */
 
   useEffect(() => {
     enableButton();

@@ -1,14 +1,18 @@
 import React from "react";
 import { Header, Icon, Dimmer, Button } from "semantic-ui-react";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
 const ApplyDimmer = (props) => {
-    const backTo = useHistory()
+  const backTo = useHistory();
 
-    function Back() {
-        props.desactivate()
-        backTo.push("/start", {from: "apply"})
-    }
+  /**
+   *  Go back to the start when the button is pressed
+   */
+  function Back() {
+    props.desactivate();
+    backTo.push("/start", { from: "apply" });
+  }
+
   return (
     <Dimmer active={props.active} page>
       {props.complete ? (
@@ -23,11 +27,8 @@ const ApplyDimmer = (props) => {
           ¡Tu aplicación fue guardada exitosamente!
           <Header.Subheader>Recuerda estar atento a tu correo</Header.Subheader>
           <Header.Subheader>para saber si fuiste seleccionado</Header.Subheader>
-          <br/>
-          <Button
-            color="green"
-            onClick={Back}
-          >
+          <br />
+          <Button color="green" onClick={Back}>
             <Button.Content visible>Volver al inicio</Button.Content>
           </Button>
         </Header>
