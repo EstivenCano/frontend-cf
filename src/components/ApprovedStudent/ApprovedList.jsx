@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "firebase/storage";
 import firebase from "firebase/app";
@@ -14,37 +14,37 @@ import {
   Modal,
 } from "semantic-ui-react";
 
-const ApplyList = () => {
+const ApprovedStudents = () => {
+  
   // State variables
-  const [requests, setRequests] = useState({});
+  const [students, setStudents] = useState({});
   const [isBusy, setIsBusy] = useState(true);
   const [open, setOpen] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const [index, setIndex] = useState(0);
-  const [student, setStudent] = useState({});
 
-  // Get all the requests when component did mount
   useEffect(() => {
-    getRequests();
+    getApprovedStudents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Call approveStudent function when student changes.
   useEffect(() => {
-    if (Object.keys(student).length !== 0) {
-      ApproveStudent();
+    if (open) {
+      verifyDocument("inscriptions", students[index].correo);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [student]);
+  }, [open]);
 
   /**
-   * Get all request from FireStore
+   * Get all the approved students from FireStore
    * isBusy = false when promise finish
    */
-  function getRequests() {
+  function getApprovedStudents() {
     setIsBusy(true);
     axios
-      .get(`http://localhost:3001/getRequests`)
-      .then((respuesta) => {
-        setRequests(respuesta.data.requests);
+      .get(`http://localhost:3001/getApprovedStudents`)
+      .then((res) => {
+        setStudents(res.data.students);
       })
       .then(() => {
         setIsBusy(false);
@@ -52,26 +52,29 @@ const ApplyList = () => {
   }
 
   /**
-   * Store the student on the specific Firestore collection
+   * If the document exist enables file button in the dimmer
+   * to get the document url
+   * @param {*} folder folder of the file
+   * @param {*} file name of the file
    */
-  async function ApproveStudent() {
-    setIsBusy(true);
-    await axios
-      .post(`http://localhost:3001/addApprovedStudent/${requests[index].id}`, student)
-      .then((respuesta) => {
-        setOpen(false);
-        getRequests();
-      })
-      .then(() => {
-        setIsBusy(false);
-      });
+  async function verifyDocument(folder, file) {
+    const storageRef = firebase.storage().ref().child(`${folder}/${file}`);
+    await storageRef.getDownloadURL().then(onResolve, onReject);
+
+    function onResolve(url) {
+      setDisabled(false);
+    }
+    function onReject(error) {
+      setDisabled(true);
+    }
   }
 
   /**
    * getDocumentUrl takes two params and returns the document's url.
    * @param {*} folder folder where is the document
-   * @param {*} file name of the file
+   * @param {*} file name of the document
    */
+
   async function getDocumentUrl(folder, file) {
     const storageRef = firebase.storage().ref();
 
@@ -106,40 +109,44 @@ const ApplyList = () => {
           <Table celled>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Convocatoria</Table.HeaderCell>
-                <Table.HeaderCell>Pregrado</Table.HeaderCell>
+                <Table.HeaderCell>Nombre</Table.HeaderCell>
+                <Table.HeaderCell>Correo</Table.HeaderCell>
                 <Table.HeaderCell>Materia</Table.HeaderCell>
                 <Table.HeaderCell>Grupo</Table.HeaderCell>
                 <Table.HeaderCell>Acciones</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {requests.map((request, index) => {
-                return (
-                  <Table.Row key={request.id}>
-                    <Table.Cell>
-                      <Label ribbon color="blue"></Label>
-                      {request.data.convocatoria}
-                    </Table.Cell>
-                    <Table.Cell>{request.data.pregrado}</Table.Cell>
-                    <Table.Cell>{request.data.materia}</Table.Cell>
-                    <Table.Cell>{request.data.id_grupo}</Table.Cell>
-                    <Table.Cell>
-                      <Button
-                        size="small"
-                        color="blue"
-                        fluid
-                        onClick={() => {
-                          setIndex(index);
-                          setOpen(true);
-                        }}
-                      >
-                        Ver solicitud
-                      </Button>
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })}
+              {students === undefined ? (
+                <></>
+              ) : (
+                students.map((student, index) => {
+                  return (
+                    <Table.Row key={student.documento}>
+                      <Table.Cell>
+                        <Label ribbon color="blue"></Label>
+                        {student.nombres + " " + student.apellidos}
+                      </Table.Cell>
+                      <Table.Cell>{student.correo}</Table.Cell>
+                      <Table.Cell>{student.materia}</Table.Cell>
+                      <Table.Cell>{student.id_grupo}</Table.Cell>
+                      <Table.Cell>
+                        <Button
+                          size="small"
+                          color="blue"
+                          fluid
+                          onClick={() => {
+                            setIndex(index);
+                            setOpen(true);
+                          }}
+                        >
+                          Ver solicitud
+                        </Button>
+                      </Table.Cell>
+                    </Table.Row>
+                  );
+                })
+              )}
             </Table.Body>
             <Table.Footer>
               <Table.Row>
@@ -154,79 +161,58 @@ const ApplyList = () => {
             }}
           >
             <Modal.Header style={{ backgroundColor: "teal", color: "white" }}>
-              Información de la solicitud
+              Información del estudiante
             </Modal.Header>
             <Modal.Content>
               <Grid>
                 <Table celled structured>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell rowSpan="2" textAlign="center">
+                      <Table.HeaderCell textAlign="center">
                         Documento
                       </Table.HeaderCell>
-                      <Table.HeaderCell rowSpan="2" textAlign="center">
+                      <Table.HeaderCell textAlign="center">
                         Nombres
                       </Table.HeaderCell>
-                      <Table.HeaderCell rowSpan="2" textAlign="center">
+                      <Table.HeaderCell textAlign="center">
                         Apellidos
                       </Table.HeaderCell>
-                      <Table.HeaderCell rowSpan="2" textAlign="center">
+                      <Table.HeaderCell textAlign="center">
                         Correo
                       </Table.HeaderCell>
-                      <Table.HeaderCell colSpan="2" textAlign="center">
-                        Autorizaciones
+                      <Table.HeaderCell textAlign="center">
+                        Inscripción
                       </Table.HeaderCell>
-                      <Table.HeaderCell rowSpan="2" textAlign="center">
+                      <Table.HeaderCell textAlign="center">
                         Acciones
-                      </Table.HeaderCell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.HeaderCell textAlign="center">
-                        Acudiente
-                      </Table.HeaderCell>
-                      <Table.HeaderCell textAlign="center">
-                        Rector
                       </Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
                     <Table.Row>
                       <Table.Cell textAlign="center">
-                        {requests[index].data.documento}
+                        {students[index].documento}
                       </Table.Cell>
                       <Table.Cell textAlign="center">
-                        {requests[index].data.nombres}
+                        {students[index].nombres}
                       </Table.Cell>
                       <Table.Cell textAlign="center">
-                        {requests[index].data.apellidos}
+                        {students[index].apellidos}
                       </Table.Cell>
                       <Table.Cell textAlign="center">
-                        {requests[index].data.correo}
-                      </Table.Cell>
-                      <Table.Cell textAlign="center">
-                        <Icon
-                          color="teal"
-                          size="big"
-                          link
-                          name="file archive"
-                          onClick={() => {
-                            getDocumentUrl(
-                              "letters",
-                              requests[index].data.documento
-                            );
-                          }}
-                        />
+                        {students[index].correo}
                       </Table.Cell>
                       <Table.Cell textAlign="center">
                         <Icon
-                          color="blue"
+                          color={disabled ? "red" : "brown"}
                           size="big"
                           link
-                          name="file archive"
+                          disabled={disabled}
+                          name={disabled ? "x" : "file"}
                           onClick={() => {
                             getDocumentUrl(
-                              "authorizations",
-                              requests[index].data.documento
+                              "inscriptions",
+                              students[index].correo
                             );
                           }}
                         />
@@ -235,14 +221,7 @@ const ApplyList = () => {
                         <Button.Group>
                           <Button>Rechazar</Button>
                           <Button.Or />
-                          <Button
-                            positive
-                            onClick={() => {
-                              setStudent(requests[index].data);
-                            }}
-                          >
-                            Seleccionar
-                          </Button>
+                          <Button positive>Aceptar</Button>
                         </Button.Group>
                       </Table.Cell>
                     </Table.Row>
@@ -269,4 +248,4 @@ const ApplyList = () => {
   );
 };
 
-export default ApplyList;
+export default ApprovedStudents;

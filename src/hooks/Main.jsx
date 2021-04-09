@@ -7,12 +7,14 @@ import AppBar from "./AppBar";
 import ApplyStudent from "../components/Apply/ApplyStudent";
 import ApplyList from "../components/Apply/ApplyList";
 import Announcement from "../components/Announcement/Announcement";
+import ApprovedStudents from "../components/ApprovedStudent/ApprovedList";
+import UploadEvidence from "../components/Student/UploadEvidence";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import firebase from "firebase/app";
 import { useUser } from "reactfire";
 import axios from "axios";
-import { Loader, Dimmer } from "semantic-ui-react";
+import { Loader, Dimmer, Grid } from "semantic-ui-react";
 
 function Main(props) {
   const user = useUser();
@@ -75,15 +77,15 @@ function Main(props) {
    * it renders the loading screen, if not, it renders the routes.
    */
   return (
-    <div>
+    <>
       {isBusy ? (
-        <div>
+        <>
           <Dimmer active inverted>
             <Loader size="massive">Cargando...</Loader>
           </Dimmer>
-        </div>
+        </>
       ) : (
-        <div className="App">
+        <Grid textAlign='center' style={{ padding: '0.8em'}} verticalAlign='middle'>
           <AppBar
             user={user}
             logged={logged}
@@ -118,14 +120,24 @@ function Main(props) {
             />
             <PrivateRoute
               rol={manager}
+              path="/approvedStudents"
+              component={ApprovedStudents}
+            />
+            <PrivateRoute
+              rol={manager}
+              path="/uploadEvidence"
+              component={UploadEvidence}
+            />
+            <PrivateRoute
+              rol={manager}
               path="/applylist"
               component={ApplyList}
             />
             <Redirect to="/start" />
           </Switch>
-        </div>
+        </Grid>
       )}
-    </div>
+    </>
   );
 }
 

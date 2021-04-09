@@ -167,7 +167,7 @@ const FormApplyStudent = (props) => {
 
   return (
     <Container style={{ marginTop: "6em" }}>
-      <Grid className="principal-grid">
+      <Grid className="principal-grid" textAlign='center'>
         <Grid.Column width={8} className="form-column">
           <Form size="large">
             <Segment stacked>

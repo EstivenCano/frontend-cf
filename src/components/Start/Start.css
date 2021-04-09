@@ -1,7 +1,7 @@
 .column-image{
     display: flex;
     flex-direction: column;
-    padding-block: 120px;
+    padding-block: 130px;
     background: url('../../svg/blob.svg');
     background-size: cover;
 }
@@ -9,8 +9,8 @@
 .column-content{
     display: flex;
     flex-direction: column;
+    align-items: center;
     align-self: center;
-    padding-block: 180px;
     justify-content: space-around;
     
 }
@@ -20,7 +20,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 50px;
+    margin-bottom: 90px;
     
 }
 

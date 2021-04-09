@@ -52,7 +52,7 @@ const Start = () => {
 
   return (
     <Container fluid>
-      <Grid columns={2} textAlign="center" verticalAlign="middle">
+      <Grid columns={2}>
         <GridRow>
           <GridColumn className="column-content">
             <GridRow className="row-content">
@@ -61,7 +61,7 @@ const Start = () => {
               </Header>
               <br />
               <Image
-                width="60%"
+                width="50%"
                 src="https://repository.udem.edu.co/themes/Mirage2/images/logo_udem.png"
               />
             </GridRow>
@@ -82,7 +82,7 @@ const Start = () => {
       </Grid>
       <div id="grid-divider" />
       <br />
-      {/*TODO Develop stepper for applyment */}
+      {/*TODO Stepper for applyment process */}
       <Grid columns={2} id="grid-announcements">
         <GridColumn textAlign="center">
           <Grid className="stick" columns={2}>
@@ -128,6 +128,7 @@ const Start = () => {
             </GridColumn>
           </Grid>
         </GridColumn>
+        {/*TODO FIX bug when open multiples groups at the same time */}
         <GridColumn id="column-announcement">
           {!isBusy ? (
             announcements.map((announcement) => {
