@@ -12,11 +12,16 @@ import {
   Loader,
   Button,
   Modal,
+  Form,
+  TextArea,
 } from "semantic-ui-react";
 
 const ApplyList = () => {
   // State variables
   const [requests, setRequests] = useState({});
+  const [reason, setReason] = useState("");
+  const [openReason, setOpenReason] = useState(false);
+  const [indicator, setIndicator] = useState(0);
   const [isBusy, setIsBusy] = useState(true);
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
@@ -30,7 +35,11 @@ const ApplyList = () => {
   // Call approveStudent function when student changes.
   useEffect(() => {
     if (Object.keys(student).length !== 0) {
-      ApproveStudent();
+      if (indicator === 0) {
+        ApproveStudent();
+      } else {
+        RejectStudent();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [student]);
@@ -57,7 +66,33 @@ const ApplyList = () => {
   async function ApproveStudent() {
     setIsBusy(true);
     await axios
-      .post(`http://localhost:3001/addApprovedStudent/${requests[index].id}`, student)
+      .post(
+        `http://localhost:3001/addApprovedStudent/${requests[index].id}`,
+        student
+      )
+      .then((respuesta) => {
+        setOpen(false);
+        getRequests();
+      })
+      .then(() => {
+        setIsBusy(false);
+      });
+  }
+
+  /**
+   * Send an email to the students and erase them from the apply list
+   */
+  async function RejectStudent() {
+    setIsBusy(true);
+    let params = {
+      student: student,
+      reason: reason
+    }
+    await axios
+      .post(
+        `http://localhost:3001/rejectStudent/${requests[index].id}`,
+        params,
+      )
       .then((respuesta) => {
         setOpen(false);
         getRequests();
@@ -96,13 +131,13 @@ const ApplyList = () => {
   }
 
   return (
-    <Container>
+    <Container fluid>
       {isBusy ? (
         <Dimmer active inverted>
           <Loader size="massive">Cargando...</Loader>
         </Dimmer>
       ) : (
-        <Grid style={{ marginTop: "100px" }} verticalAlign="middle">
+        <Grid style={{ padding: "50px" }} verticalAlign="middle">
           <Table celled>
             <Table.Header>
               <Table.Row>
@@ -147,6 +182,7 @@ const ApplyList = () => {
               </Table.Row>
             </Table.Footer>
           </Table>
+
           <Modal
             open={open}
             onClose={() => {
@@ -233,11 +269,19 @@ const ApplyList = () => {
                       </Table.Cell>
                       <Table.Cell textAlign="center">
                         <Button.Group>
-                          <Button>Rechazar</Button>
+                          <Button
+                            color="brown"
+                            onClick={() => {
+                              setOpenReason(true);
+                            }}
+                          >
+                            Rechazar
+                          </Button>
                           <Button.Or />
                           <Button
                             positive
                             onClick={() => {
+                              setIndicator(0);
                               setStudent(requests[index].data);
                             }}
                           >
@@ -263,6 +307,46 @@ const ApplyList = () => {
           <Dimmer active={open}>
             <Loader size="massive">Cargando...</Loader>
           </Dimmer>
+          <Modal
+            open={openReason}
+            onClose={() => {
+              setOpenReason(false);
+            }}
+          >
+            <Modal.Header style={{ backgroundColor: "teal", color: "white" }}>
+              Razón de rechazo
+            </Modal.Header>
+            <Modal.Content>
+              <Form>
+                <TextArea
+                  maxLength="400"
+                  placeholder="Añade la justificación del rechazo máximo 400 caracteres"
+                  onChange={(e) => {
+                    setReason(e.target.value);
+                  }}
+                />
+              </Form>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                content="Confirmar rechazo"
+                labelPosition="right"
+                icon="check"
+                onClick={() => {
+                  setIndicator(1);
+                  setStudent(requests[index].data);
+                }}
+                positive
+              />
+              <Button
+                content="Cancelar"
+                labelPosition="right"
+                icon="x"
+                onClick={() => setOpenReason(false)}
+                negative
+              />
+            </Modal.Actions>
+          </Modal>
         </Grid>
       )}
     </Container>
