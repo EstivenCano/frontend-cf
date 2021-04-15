@@ -17,6 +17,7 @@ import { ReactComponent as Uploading } from "../../svg/uploading.svg";
 import UploadDimmer from "./Dimmer";
 
 
+//TODO Let upload evidence only to approved students
 const UploadEvidence = () => {
   const btnRef = useRef();
   const auth = useAuth()

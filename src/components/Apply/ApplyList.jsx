@@ -335,6 +335,7 @@ const ApplyList = () => {
                 onClick={() => {
                   setIndicator(1);
                   setStudent(requests[index].data);
+                  setOpenReason(false)
                 }}
                 positive
               />

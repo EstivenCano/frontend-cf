@@ -43,7 +43,7 @@ const PreviewAnnouncement = (props) => {
   }
   return (
     <Segment stacked style={{ minWidth: 600 }}>
-      <Grid columns={2}>
+      <Grid columns={2} textAlign='center'>
         <GridRow stretched>
           <GridColumn width={9} verticalAlign="middle">
             <GridRow>

@@ -27,6 +27,12 @@ function Announcement() {
   const [open, setOpen] = useState(false);
   const backTo = useHistory();
 
+  // Component did mount
+  // Alternative solution to useHistory() bug.
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, []);
+
   /**
    *  Add the announcement to Firestore
    */
