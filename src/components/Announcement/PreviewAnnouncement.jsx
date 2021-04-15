@@ -14,6 +14,7 @@ import {
   Label,
   LabelDetail,
 } from "semantic-ui-react";
+import { useHistory } from "react-router-dom";
 import "./PreviewAnnouncement.css";
 
 const PreviewAnnouncement = (props) => {
@@ -22,14 +23,15 @@ const PreviewAnnouncement = (props) => {
   const [applyInfo, setApplyInfo] = value5;
   const [visible, setVisible] = useState(false);
   const [ann, setAnn] = useState({});
+  const history = useHistory();
 
   useEffect(() => {
     setAnn(props.announcement);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [announcement]);
 
-  function clickApply(curso, grupo) {
-    setApplyInfo({
+  async function clickApply(curso, grupo) {
+    await setApplyInfo({
       ...applyInfo,
       id_convocatoria: props.id_ann,
       convocatoria: ann.nombre,
@@ -37,7 +39,7 @@ const PreviewAnnouncement = (props) => {
       pregrado: ann.pregrado,
       id_grupo: grupo,
     });
-    window.open('/apply', '_self')
+    history.push("/apply");
   }
   return (
     <Segment stacked style={{ minWidth: 600 }}>

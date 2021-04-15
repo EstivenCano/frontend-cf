@@ -8,9 +8,9 @@ function App() {
   return (
     <BrowserRouter>
       <AnnouncementProvider>
-        <div>
+        <>
           <Main />
-        </div>
+        </>
       </AnnouncementProvider>
     </BrowserRouter>
 

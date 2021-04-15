@@ -7,13 +7,14 @@ import AppBar from "./AppBar";
 import ApplyStudent from "../components/Apply/ApplyStudent";
 import ApplyList from "../components/Apply/ApplyList";
 import Announcement from "../components/Announcement/Announcement";
+import ApprovedStudents from "../components/ApprovedStudent/ApprovedList";
+import UploadEvidence from "../components/Student/UploadEvidence";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import firebase from "firebase/app";
 import { useUser } from "reactfire";
 import axios from "axios";
-import { Loader, Dimmer } from "semantic-ui-react";
-import "../css/Main.css";
+import { Loader, Dimmer, Grid } from "semantic-ui-react";
 
 function Main(props) {
   const user = useUser();
@@ -24,10 +25,7 @@ function Main(props) {
   const [manager, setManager] = useState(false);
   const [teacher, setTeacher] = useState(false);
 
-  /**
-   * Añade el usuario a la DB si es us nuev
-   * Obtiene su rol para administrar sus permisos
-   */
+  //TODO Improve getRoles function and organize the roles
   useEffect(() => {
     setBusy(true);
     if (user.data != null) {
@@ -59,8 +57,9 @@ function Main(props) {
   }, [user.data]);
 
   /**
-   * Verifica si el usuario esta logeado y reestablece los hooks a false. 
+   * Check if the user is logged in and reset the hooks to false.
    */
+
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
       setLogged(true);
@@ -74,19 +73,19 @@ function Main(props) {
     }
   });
 
-  /**Verifica si esta ocupado con una petición, si lo está renderiza la pantalla de carga
-   * si no, renderiza las rutas.
+  /**It checks if it is busy with a request, if it is,
+   * it renders the loading screen, if not, it renders the routes.
    */
   return (
-    <div>
+    <>
       {isBusy ? (
-        <div>
+        <>
           <Dimmer active inverted>
             <Loader size="massive">Cargando...</Loader>
           </Dimmer>
-        </div>
+        </>
       ) : (
-        <div className="App">
+        <Grid textAlign='center' style={{ padding: '0.8em'}} verticalAlign='middle'>
           <AppBar
             user={user}
             logged={logged}
@@ -121,14 +120,24 @@ function Main(props) {
             />
             <PrivateRoute
               rol={manager}
+              path="/approvedStudents"
+              component={ApprovedStudents}
+            />
+            <PrivateRoute
+              rol={manager}
+              path="/uploadEvidence"
+              component={UploadEvidence}
+            />
+            <PrivateRoute
+              rol={manager}
               path="/applylist"
               component={ApplyList}
             />
             <Redirect to="/start" />
           </Switch>
-        </div>
+        </Grid>
       )}
-    </div>
+    </>
   );
 }
 

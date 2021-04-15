@@ -14,17 +14,22 @@ import {
 } from "semantic-ui-react";
 import PreviewAnnouncement from "./PreviewAnnouncement";
 import { AnnouncementContext } from "./AnnouncementContext";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 import "./Announcement.css";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 function Announcement() {
+  // State variables
   const { value } = useContext(AnnouncementContext);
   const [announcement] = value;
   const [disable, setDisable] = useState(true);
   const [open, setOpen] = useState(false);
-  const backTo = useHistory()
+  const backTo = useHistory();
+
+  /**
+   *  Add the announcement to Firestore
+   */
 
   async function addConvocatoria() {
     if (!disable) {
@@ -33,13 +38,17 @@ function Announcement() {
         .then((res) => {
           console.log(res.data);
           setOpen(false);
-          backTo.goBack('start')
+          backTo.goBack("start");
         });
     } else {
       console.log("No pudo agregarse la convocatoria");
     }
   }
 
+  /**
+   * Check if the announcement has an empty attribute or is null
+   * and enable or disable the button to add it
+   */
   function enableButton() {
     if (
       announcement !== null &&
@@ -53,15 +62,20 @@ function Announcement() {
     }
   }
 
+  /**
+   * Call enableButton function to verify the announcement
+   * when announcement changes.
+   */
+
   useEffect(() => {
     enableButton();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [announcement]);
 
   return (
-    <Container className="pp-container" fluid>
-      <Grid className="principal-grid" columns={2} verticalAlign="middle">
-        <GridRow className='row-content' stretched>
+    <Container className="pp-container">
+      <Grid textAlign="center" columns={2} verticalAlign="top">
+        <GridRow className="row-content" stretched>
           <GridColumn width={7} className="stick-column">
             <Segment>
               <Form>
@@ -92,7 +106,8 @@ function Announcement() {
               />
             </Segment>
           </GridColumn>
-          <GridColumn width={9} className='preview-column'>
+          <GridColumn width={9} className="preview-column">
+            {/*TODO FIX Bad scrolling when + button is pressed */}
             <PreviewAnnouncement />
           </GridColumn>
         </GridRow>

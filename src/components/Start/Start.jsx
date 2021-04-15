@@ -23,8 +23,11 @@ const Start = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [isBusy, setBusy] = useState(true);
 
+  // Component did mount
+  // Alternative solution to useHistory() bug.
   useEffect(() => {
     getAnnouncements();
+    window.scrollTo({ top: 0 });
   }, []);
 
   async function getAnnouncements() {
@@ -33,10 +36,13 @@ const Start = () => {
       .get(`http://localhost:3001/announcements`)
       .then((respuesta) => {
         respuesta.data.ok.forEach((doc) => {
-          setAnnouncements((announcements) => [...announcements,{
-            id: doc.id,
-            data: doc.data
-          } ]);
+          setAnnouncements((announcements) => [
+            ...announcements,
+            {
+              id: doc.id,
+              data: doc.data,
+            },
+          ]);
         });
       })
       .finally(() => {
@@ -46,7 +52,7 @@ const Start = () => {
 
   return (
     <Container fluid>
-      <Grid columns={2} textAlign="center" verticalAlign="middle">
+      <Grid columns={2}>
         <GridRow>
           <GridColumn className="column-content">
             <GridRow className="row-content">
@@ -55,7 +61,7 @@ const Start = () => {
               </Header>
               <br />
               <Image
-                width="60%"
+                width="50%"
                 src="https://repository.udem.edu.co/themes/Mirage2/images/logo_udem.png"
               />
             </GridRow>
@@ -76,8 +82,9 @@ const Start = () => {
       </Grid>
       <div id="grid-divider" />
       <br />
+      {/*TODO Stepper for applyment process */}
       <Grid columns={2} id="grid-announcements">
-      <GridColumn textAlign="center">
+        <GridColumn textAlign="center">
           <Grid className="stick" columns={2}>
             <Down width="50%" height="50%" />
             <GridColumn verticalAlign="middle">
@@ -85,7 +92,7 @@ const Start = () => {
                 <Header as="h4" color="teal">
                   Proceso para aplicar
                 </Header>
-                <Divider/>
+                <Divider />
                 <Step.Group vertical>
                   <Step active>
                     <Icon name="announcement" />
@@ -121,11 +128,16 @@ const Start = () => {
             </GridColumn>
           </Grid>
         </GridColumn>
+        {/*TODO FIX bug when open multiples groups at the same time */}
         <GridColumn id="column-announcement">
           {!isBusy ? (
             announcements.map((announcement) => {
               return (
-                <PreviewAnnouncement key={announcement.id} id_ann={announcement.id} announcement={announcement.data} />
+                <PreviewAnnouncement
+                  key={announcement.id}
+                  id_ann={announcement.id}
+                  announcement={announcement.data}
+                />
               );
             })
           ) : (
