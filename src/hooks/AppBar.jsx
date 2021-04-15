@@ -1,6 +1,7 @@
 import React from "react";
 import firebase from "firebase/app";
 import { useAuth, useUser, AuthCheck } from "reactfire";
+import { useHistory } from "react-router-dom";
 import {
   Button,
   ButtonContent,
@@ -12,6 +13,7 @@ import {
 
 const AppBar = (props) => {
   const user = useUser();
+  const history = useHistory();
 
   function AuthenticationButtons() {
     const auth = useAuth();
@@ -47,17 +49,54 @@ const AppBar = (props) => {
     );
   }
 
-  function getRol() {
-    if (props.moderator === true) {
-      window.open("/create", "_self");
-    }
-    else{
-      if (props.manager === true) {
-        window.open("/applylist", "_self");
-      }
-    }
-    
-  }
+  const ModeratorView = () => {
+    return (
+      <>
+        <Menu.Item
+          onClick={() => {
+            history.push("/create");
+          }}
+        >
+          Crear convocatoria
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            history.push("/approvedStudents");
+          }}
+        >
+          Estudiantes aprobados
+        </Menu.Item>
+      </>
+    );
+  };
+
+  const TeacherView = () => {
+    return (
+      <>
+        <Menu.Item
+          onClick={() => {
+            history.push("/create");
+          }}
+        >
+          Realizar seguimiento
+        </Menu.Item>
+      </>
+    );
+  };
+
+  const ManagerView = () => {
+    return (
+      <>
+        <Menu.Item
+          onClick={() => {
+            history.push("/applylist");
+          }}
+        >
+          Solicitudes
+        </Menu.Item>
+      </>
+    );
+  };
 
   function AppB() {
     return (
@@ -70,16 +109,22 @@ const AppBar = (props) => {
             <Menu.Item active>
               {user.data != null ? user.data.displayName : "Invitado"} 🔥
             </Menu.Item>
-            <Menu.Item href="/start">Inicio</Menu.Item>
-            <Menu.Item onClick={getRol}>
-              {props.moderator === true
-                ? "Crear"
-                : props.manager === true
-                ? "Lista de aplicaciones"
-                : props.teacher === true
-                ? "Observaciones"
-                : ""}
+            <Menu.Item
+              onClick={() => {
+                history.push("/start");
+              }}
+            >
+              Inicio
             </Menu.Item>
+            {props.moderator ? (
+              <ModeratorView />
+            ) : props.manager ? (
+              <ManagerView />
+            ) : props.teacher ? (
+              <TeacherView />
+            ) : (
+              ""
+            )}
             <Menu.Item position="right">
               <AuthenticationButtons />
             </Menu.Item>

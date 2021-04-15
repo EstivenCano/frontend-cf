@@ -119,12 +119,12 @@ function Main(props) {
               component={Announcement}
             />
             <PrivateRoute
-              rol={manager}
+              rol={moderator}
               path="/approvedStudents"
               component={ApprovedStudents}
             />
             <PrivateRoute
-              rol={manager}
+              rol={student}
               path="/uploadEvidence"
               component={UploadEvidence}
             />
