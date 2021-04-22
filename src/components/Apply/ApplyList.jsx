@@ -48,9 +48,10 @@ const ApplyList = () => {
    * Get all request from FireStore
    * isBusy = false when promise finish
    */
-  function getRequests() {
+
+  async function getRequests() {
     setIsBusy(true);
-    axios
+    await axios
       .get(`http://localhost:3001/getRequests`)
       .then((respuesta) => {
         setRequests(respuesta.data.requests);
@@ -61,7 +62,7 @@ const ApplyList = () => {
   }
 
   /**
-   * Store the student on the specific Firestore collection
+   * Set the student on the specific Firestore collection
    */
   async function ApproveStudent() {
     setIsBusy(true);
@@ -82,6 +83,7 @@ const ApplyList = () => {
   /**
    * Send an email to the students and erase them from the apply list
    */
+  
   async function RejectStudent() {
     setIsBusy(true);
     let params = {

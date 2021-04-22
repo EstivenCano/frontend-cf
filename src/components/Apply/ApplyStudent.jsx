@@ -9,6 +9,9 @@ import {
   GridRow,
   Container,
   Divider,
+  Dimmer,
+  Loader,
+  Progress,
 } from "semantic-ui-react";
 import { AnnouncementContext } from "../Announcement/AnnouncementContext";
 import { useHistory } from "react-router-dom";
@@ -18,23 +21,10 @@ import "firebase/storage";
 import firebase from "firebase/app";
 import axios from "axios";
 
-//TODO Add all high-schools directly from the server
-const institutos = [
-  {
-    key: "001",
-    text: "CENTRO EDUCACIONAL CONQUISTADORES",
-    value: "CENTRO EDUCACIONAL CONQUISTADORES",
-  },
-  { key: "002", text: "COLEGIO SAN IGNACIO", value: "COLEGIO SAN IGNACIO" },
-  {
-    key: "003",
-    text: "COLEGIO THE COLUMBUS SCHOOL",
-    value: "COLEGIO THE COLUMBUS SCHOOL",
-  },
-];
-
 const FormApplyStudent = (props) => {
   // State variables
+  const [highSchool, setHighSchool] = useState([]);
+  const [isBusy, setIsBusy] = useState(true);
   const btnRef = useRef();
   const btnRef2 = useRef();
   const [active, setActive] = useState(false);
@@ -54,7 +44,48 @@ const FormApplyStudent = (props) => {
     docente: "",
     c_docente: "",
   });
-  const history = useHistory()
+  const history = useHistory();
+
+  //TODO Add all high-schools directly from the server
+  const getHighSchools = async () => {
+    setIsBusy(true);
+    await axios
+      .get(
+        "https://opendata.arcgis.com/datasets/cadce6e9b76d4177a8fbf0931995e826_0.geojson",
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "access-control-allow-origin",
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        response.data.features.forEach((element, index) => {
+          if (element.properties.CLASIFICACION === "Oficial - Sede Principal")
+            setHighSchool((highSchool) => [
+              ...highSchool,
+              {
+                key: index,
+                text: element.properties.NOMBRE_ESTABLECIMIENTO,
+                value: element.properties.NOMBRE_ESTABLECIMIENTO,
+              },
+            ]);
+        });
+      })
+      .then(() => {
+        setIsBusy(false);
+      });
+  };
+
+  //
+  useEffect(() => {
+    if (highSchool.length === 0) {
+      getHighSchools();
+    } 
+  }, []);
 
   // TODO fix useHistory bug that push to the end of the page.
   // Component did mount
@@ -65,14 +96,12 @@ const FormApplyStudent = (props) => {
     // Check if all values for applyInfo properties are different to ""
     for (const property in applyInfo) {
       const value = applyInfo[property];
-      if (value === ""){
-        console.log(
-          "Info doesn't exist"
-        );
-        return history.push("/start")
+      if (value === "") {
+        console.log("Info doesn't exist");
+        return history.push("/start");
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
@@ -166,167 +195,175 @@ const FormApplyStudent = (props) => {
   }
 
   return (
-    <Container style={{ marginTop: "6em" }}>
-      <Grid className="principal-grid" textAlign='center'>
-        <Grid.Column width={8} className="form-column">
-          <Form size="large">
-            <Segment stacked>
-              <Header as="h2" color="teal" textAlign="center">
-                Aplicar a la Convocatoria
-              </Header>
-              <Divider />
-              <Form.Group widths="equal">
-                <Form.Input
-                  label="Documento"
-                  placeholder="Ingrese su documento de identidad"
-                  onChange={(e) => {
-                    handleChange(e, "documento");
-                  }}
-                />
-                <Form.Input
-                  label="Nombres"
-                  placeholder="Ingrese su nombre"
-                  onChange={(e) => {
-                    handleChange(e, "nombres");
-                  }}
-                />
-              </Form.Group>
-              <Form.Group widths="equal">
-                <Form.Input
-                  label="Apellidos"
-                  placeholder="Ingrese sus apellidos"
-                  onChange={(e) => {
-                    handleChange(e, "apellidos");
-                  }}
-                />
-                <Form.Input
-                  label="Correo electronico"
-                  placeholder="ejemplo@dominio.com"
-                  onChange={(e) => {
-                    handleChange(e, "correo");
-                  }}
-                />
-              </Form.Group>
-              <Form.Group widths="equal">
-                <Form.Select
-                  options={institutos}
-                  label="Instituto"
-                  placeholder="Selecciona tu instituto"
-                  onChange={(e, { value }) =>
-                    setapplyForm({ ...applyForm, instituto: value })
-                  }
-                />
-              </Form.Group>
-              <Form.Group widths="equal">
-                <Form.Input
-                  label="Telefono de contacto"
-                  placeholder="xxx-xxxx-xxxx"
-                  onChange={(e) => {
-                    handleChange(e, "telefono");
-                  }}
-                />
-                <Form.Input
-                  label="Comuna de residencia"
-                  placeholder="Ingresa el numero"
-                  onChange={(e) => {
-                    handleChange(e, "comuna");
-                  }}
-                />
-              </Form.Group>
-              <Form.Group widths="equal">
-                <Form.Input
-                  label="Nombre de docente acompañante"
-                  placeholder="Ingresa el nombre del docente"
-                  onChange={(e) => {
-                    handleChange(e, "docente");
-                  }}
-                />
-                <Form.Input
-                  label="Correo electronico del docente"
-                  placeholder="Ingresa el correo del docente"
-                  onChange={(e) => {
-                    handleChange(e, "c_docente");
-                  }}
-                />
-              </Form.Group>
-              <GridRow>
-                <Divider />
-                <Header as="h5" color="grey">
-                  Recuerda que debes adjuntar la autorización de tu acudiente y
-                  la carta del rector de la institución educativa, en los
-                  botones ubicados en la parte inferior
-                </Header>
-                <br />
-              </GridRow>
-              <Grid.Row centered>
-                <Button
-                  animated="vertical"
-                  type="file"
-                  color="black"
-                  onClick={() => btnRef.current.click()}
-                >
-                  <Button.Content visible>
-                    Autorizacion de acudiente
-                  </Button.Content>
-                  <Button.Content hidden>
-                    <Icon name="paperclip" />
-                  </Button.Content>
-                </Button>
-                <input
-                  type="file"
-                  ref={btnRef}
-                  hidden
-                  accept=".doc, .pdf"
-                  onChange={(e) => {
-                    setAuthorization(btnRef.current.files[0]);
-                  }}
-                />
-                <Button
-                  animated="vertical"
-                  color="blue"
-                  onClick={() => btnRef2.current.click()}
-                >
-                  <Button.Content visible>Carta del rector </Button.Content>
-                  <Button.Content hidden>
-                    <Icon name="paperclip" />
-                  </Button.Content>
-                </Button>
-                <input
-                  type="file"
-                  ref={btnRef2}
-                  hidden
-                  accept=".doc, .pdf"
-                  onChange={(e) => {
-                    setLetter(btnRef2.current.files[0]);
-                  }}
-                />
-              </Grid.Row>
-              <br />
-              <GridRow>
-                <Button
-                  animated="vertical"
-                  color="green"
-                  disabled={!(validarDocs() && validarInfo())}
-                  onClick={onSubmit}
-                >
-                  <Button.Content visible>
-                    Aplicar a la convocatoria{" "}
-                  </Button.Content>
-                  <Button.Content hidden>
-                    <Icon name="check" />
-                  </Button.Content>
-                </Button>
-              </GridRow>
-            </Segment>
-          </Form>
-        </Grid.Column>
-      </Grid>
-      <ApplyDimmer
-        active={active}
-        desactivate={desactivate}
-        complete={complete}
-      />
-    </Container>
+    <>
+      {isBusy ? (
+        <Dimmer active={isBusy}>
+          <Loader size="massive">Cargando...</Loader>
+        </Dimmer>
+      ) : (
+        <Container style={{ marginTop: "6em" }}>
+          <Grid className="principal-grid" textAlign="center">
+            <Grid.Column width={8} className="form-column">
+              <Form size="large">
+                <Segment stacked>
+                  <Header as="h2" color="teal" textAlign="center">
+                    Aplicar a la Convocatoria
+                  </Header>
+                  <Divider />
+                  <Form.Group widths="equal">
+                    <Form.Input
+                      label="Documento"
+                      placeholder="Ingrese su documento de identidad"
+                      onChange={(e) => {
+                        handleChange(e, "documento");
+                      }}
+                    />
+                    <Form.Input
+                      label="Nombres"
+                      placeholder="Ingrese su nombre"
+                      onChange={(e) => {
+                        handleChange(e, "nombres");
+                      }}
+                    />
+                  </Form.Group>
+                  <Form.Group widths="equal">
+                    <Form.Input
+                      label="Apellidos"
+                      placeholder="Ingrese sus apellidos"
+                      onChange={(e) => {
+                        handleChange(e, "apellidos");
+                      }}
+                    />
+                    <Form.Input
+                      label="Correo electronico"
+                      placeholder="ejemplo@dominio.com"
+                      onChange={(e) => {
+                        handleChange(e, "correo");
+                      }}
+                    />
+                  </Form.Group>
+                  <Form.Group widths="equal">
+                    <Form.Select
+                      options={highSchool}
+                      label="Instituto"
+                      placeholder="Selecciona tu instituto"
+                      onChange={(e, { value }) =>
+                        setapplyForm({ ...applyForm, instituto: value })
+                      }
+                    />
+                  </Form.Group>
+                  <Form.Group widths="equal">
+                    <Form.Input
+                      label="Telefono de contacto"
+                      placeholder="xxx-xxxx-xxxx"
+                      onChange={(e) => {
+                        handleChange(e, "telefono");
+                      }}
+                    />
+                    <Form.Input
+                      label="Comuna de residencia"
+                      placeholder="Ingresa el numero"
+                      onChange={(e) => {
+                        handleChange(e, "comuna");
+                      }}
+                    />
+                  </Form.Group>
+                  <Form.Group widths="equal">
+                    <Form.Input
+                      label="Nombre de docente acompañante"
+                      placeholder="Ingresa el nombre del docente"
+                      onChange={(e) => {
+                        handleChange(e, "docente");
+                      }}
+                    />
+                    <Form.Input
+                      label="Correo electronico del docente"
+                      placeholder="Ingresa el correo del docente"
+                      onChange={(e) => {
+                        handleChange(e, "c_docente");
+                      }}
+                    />
+                  </Form.Group>
+                  <GridRow>
+                    <Divider />
+                    <Header as="h5" color="grey">
+                      Recuerda que debes adjuntar la autorización de tu
+                      acudiente y la carta del rector de la institución
+                      educativa, en los botones ubicados en la parte inferior
+                    </Header>
+                    <br />
+                  </GridRow>
+                  <Grid.Row centered>
+                    <Button
+                      animated="vertical"
+                      type="file"
+                      color="black"
+                      onClick={() => btnRef.current.click()}
+                    >
+                      <Button.Content visible>
+                        Autorizacion de acudiente
+                      </Button.Content>
+                      <Button.Content hidden>
+                        <Icon name="paperclip" />
+                      </Button.Content>
+                    </Button>
+                    <input
+                      type="file"
+                      ref={btnRef}
+                      hidden
+                      accept=".doc, .pdf"
+                      onChange={(e) => {
+                        setAuthorization(btnRef.current.files[0]);
+                      }}
+                    />
+                    <Button
+                      animated="vertical"
+                      color="blue"
+                      onClick={() => btnRef2.current.click()}
+                    >
+                      <Button.Content visible>Carta del rector </Button.Content>
+                      <Button.Content hidden>
+                        <Icon name="paperclip" />
+                      </Button.Content>
+                    </Button>
+                    <input
+                      type="file"
+                      ref={btnRef2}
+                      hidden
+                      accept=".doc, .pdf"
+                      onChange={(e) => {
+                        setLetter(btnRef2.current.files[0]);
+                      }}
+                    />
+                  </Grid.Row>
+                  <br />
+                  <GridRow>
+                    <Button
+                      animated="vertical"
+                      color="green"
+                      disabled={!(validarDocs() && validarInfo())}
+                      onClick={onSubmit}
+                    >
+                      <Button.Content visible>
+                        Aplicar a la convocatoria{" "}
+                      </Button.Content>
+                      <Button.Content hidden>
+                        <Icon name="check" />
+                      </Button.Content>
+                    </Button>
+                  </GridRow>
+                </Segment>
+              </Form>
+            </Grid.Column>
+          </Grid>
+          <ApplyDimmer
+            active={active}
+            desactivate={desactivate}
+            complete={complete}
+          />
+        </Container>
+      )}
+    </>
   );
 };
 

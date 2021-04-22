@@ -15,7 +15,6 @@ import {
 } from "semantic-ui-react";
 
 const ApprovedStudents = () => {
-  
   // State variables
   const [students, setStudents] = useState({});
   const [isBusy, setIsBusy] = useState(true);
