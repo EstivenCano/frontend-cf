@@ -135,7 +135,7 @@ const ApplyList = () => {
   return (
     <Container fluid>
       {isBusy ? (
-        <Dimmer active inverted>
+        <Dimmer active>
           <Loader size="massive">Cargando...</Loader>
         </Dimmer>
       ) : (

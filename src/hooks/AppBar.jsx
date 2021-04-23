@@ -66,6 +66,13 @@ const AppBar = (props) => {
         >
           Estudiantes aprobados
         </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            history.push("/setUTeacher");
+          }}
+        >
+          Añadir profesor
+        </Menu.Item>
       </>
     );
   };
@@ -93,6 +100,13 @@ const AppBar = (props) => {
           }}
         >
           Solicitudes
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            history.push("/setTeacher");
+          }}
+        >
+          Asignar profesores
         </Menu.Item>
       </>
     );

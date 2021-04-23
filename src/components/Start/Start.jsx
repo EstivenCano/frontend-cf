@@ -57,7 +57,7 @@ const Start = () => {
           <GridColumn className="column-content">
             <GridRow className="row-content">
               <Header as="h1">
-                <Header.Content style={{color:'#3a3768'}}>¡Bienvenido a Camino Flexible!</Header.Content>
+                <Header.Content style={{color:'#3a3768', fontSize: '35px'}}>¡Bienvenido a Camino Flexible!</Header.Content>
               </Header>
               <br />
               <Image

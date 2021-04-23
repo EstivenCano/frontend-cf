@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Redirect, withRouter } from "react-router-dom";
+import firebase from "firebase/app";
+import { useUser } from "reactfire";
+import axios from "axios";
+import { Loader, Dimmer, Grid } from "semantic-ui-react";
+
 import Start from "../components/Start/Start";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -11,10 +16,8 @@ import ApprovedStudents from "../components/ApprovedStudent/ApprovedList";
 import UploadEvidence from "../components/Student/UploadEvidence";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
-import firebase from "firebase/app";
-import { useUser } from "reactfire";
-import axios from "axios";
-import { Loader, Dimmer, Grid } from "semantic-ui-react";
+import SetTeacher from "../components/Manager/SetTeacher";
+import SetUTeacher from "../components/Moderator/SetTeacher";
 
 function Main(props) {
   const user = useUser();
@@ -85,7 +88,11 @@ function Main(props) {
           </Dimmer>
         </>
       ) : (
-        <Grid textAlign='center' style={{ padding: '0.8em'}} verticalAlign='middle'>
+        <Grid
+          textAlign="center"
+          style={{ padding: "0.8em" }}
+          verticalAlign="middle"
+        >
           <AppBar
             user={user}
             logged={logged}
@@ -132,6 +139,16 @@ function Main(props) {
               rol={manager}
               path="/applylist"
               component={ApplyList}
+            />
+            <PrivateRoute
+              rol={manager}
+              path="/setTeacher"
+              component={SetTeacher}
+            />
+            <PrivateRoute
+              rol={moderator}
+              path="/setUTeacher"
+              component={SetUTeacher}
             />
             <Redirect to="/start" />
           </Switch>
