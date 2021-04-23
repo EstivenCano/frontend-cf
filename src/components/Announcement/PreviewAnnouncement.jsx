@@ -245,7 +245,7 @@ const PreviewAnnouncement = (props) => {
                     return (
                       <React.Fragment key={index}>
                         <GridColumn width={6} verticalAlign="middle">
-                          <Header as="h4" color="blue" textAlign="center">
+                          <Header as="h4" color="teal" textAlign="center">
                             <Icon name="book" />
                             {curso.curso}
                           </Header>
@@ -256,7 +256,7 @@ const PreviewAnnouncement = (props) => {
                           </Divider>
                         </GridColumn>
                         <GridColumn width={9}>
-                          <Header as="h4" color="red" textAlign="center">
+                          <Header as="h4" color="teal" textAlign="center">
                             <Icon name="group" />
                             {"Grupos"}
                           </Header>
@@ -304,7 +304,7 @@ const PreviewAnnouncement = (props) => {
                                                   : ""}
                                               </Label.Detail>
                                             </Label>
-                                            <Label as="a" color="red" image>
+                                            <Label as="a" color="teal" image>
                                               <Icon name="clock" /> Fin{" "}
                                               <Label.Detail>
                                                 {grupo.horario !== undefined

@@ -257,7 +257,7 @@ function FormHorario() {
       <br />
       <GridRow className="row-buttons">
         <Button
-          primary
+          style={{backgroundColor:'#3a3768', color: 'white'}}
           animated
           onClick={() => {
             addGrupo();
@@ -272,7 +272,7 @@ function FormHorario() {
           </Button.Content>
         </Button>
         <Button
-          primary
+          style={{backgroundColor:'#3a3768', color: 'white'}}
           animated
           onClick={() => {
             addCurso(

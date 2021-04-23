@@ -95,7 +95,7 @@ function Announcement() {
                 onClick={() => {
                   setOpen(true);
                 }}
-                color="green"
+                color="teal"
                 disabled={disable}
               >
                 Guardar Convocatoria

@@ -297,7 +297,7 @@ const FormApplyStudent = (props) => {
                     <Button
                       animated="vertical"
                       type="file"
-                      color="black"
+                      style={{backgroundColor:'#3a3768', color: 'white'}}
                       onClick={() => btnRef.current.click()}
                     >
                       <Button.Content visible>
@@ -318,7 +318,7 @@ const FormApplyStudent = (props) => {
                     />
                     <Button
                       animated="vertical"
-                      color="blue"
+                      style={{backgroundColor:'#3a3768', color: 'white'}}
                       onClick={() => btnRef2.current.click()}
                     >
                       <Button.Content visible>Carta del rector </Button.Content>
@@ -340,7 +340,7 @@ const FormApplyStudent = (props) => {
                   <GridRow>
                     <Button
                       animated="vertical"
-                      color="green"
+                      color="teal"
                       disabled={!(validarDocs() && validarInfo())}
                       onClick={onSubmit}
                     >

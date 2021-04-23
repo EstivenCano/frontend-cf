@@ -257,7 +257,7 @@ const ApplyList = () => {
                       </Table.Cell>
                       <Table.Cell textAlign="center">
                         <Icon
-                          color="blue"
+                          color="teal"
                           size="big"
                           link
                           name="file archive"
@@ -272,7 +272,7 @@ const ApplyList = () => {
                       <Table.Cell textAlign="center">
                         <Button.Group>
                           <Button
-                            color="brown"
+                            style={{backgroundColor:'#3a3768', color: 'white'}}
                             onClick={() => {
                               setOpenReason(true);
                             }}
@@ -281,7 +281,7 @@ const ApplyList = () => {
                           </Button>
                           <Button.Or />
                           <Button
-                            positive
+                            color='teal'
                             onClick={() => {
                               setIndicator(0);
                               setStudent(requests[index].data);

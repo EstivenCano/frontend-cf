@@ -28,7 +28,7 @@ const ApplyDimmer = (props) => {
           <Header.Subheader>Recuerda estar atento a tu correo</Header.Subheader>
           <Header.Subheader>para saber si fuiste seleccionado</Header.Subheader>
           <br />
-          <Button color="green" onClick={Back}>
+          <Button color="teal" onClick={Back}>
             <Button.Content visible>Volver al inicio</Button.Content>
           </Button>
         </Header>

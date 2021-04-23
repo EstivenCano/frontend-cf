@@ -69,7 +69,7 @@ const UploadEvidence = () => {
                 </Header>
                 <Button
                   animated="vertical"
-                  color="blue"
+                  style={{backgroundColor:'#3a3768', color: 'white'}}
                   onClick={() => btnRef.current.click()}
                 >
                   <Button.Content visible>
@@ -94,7 +94,7 @@ const UploadEvidence = () => {
                 <br />
                 <Button
                   animated="vertical"
-                  color="green"
+                  color="teal"
                   disabled={disabled}
                   onClick={uploadFile}
                 >
