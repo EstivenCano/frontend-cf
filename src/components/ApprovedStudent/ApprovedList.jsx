@@ -12,11 +12,15 @@ import {
   Loader,
   Button,
   Modal,
+  Form,
+  TextArea
 } from "semantic-ui-react";
 
 const ApprovedStudents = () => {
   // State variables
   const [students, setStudents] = useState({});
+  const [reason, setReason] = useState("");
+  const [openReason, setOpenReason] = useState(false);
   const [isBusy, setIsBusy] = useState(true);
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -29,7 +33,7 @@ const ApprovedStudents = () => {
 
   useEffect(() => {
     if (open) {
-      verifyDocument("inscriptions", students[index].correo);
+      verifyDocument("inscriptions", students[index].data.correo);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -49,6 +53,45 @@ const ApprovedStudents = () => {
         setIsBusy(false);
       });
   }
+
+  /**
+   * Approve student's evidence
+   * isBusy = false when promise finish
+   */
+  async function approveEvidence() {
+    setIsBusy(true);
+    let params = {
+      studentMail: students[index].data.correo,
+    };
+    await axios
+      .post(
+        `http://localhost:3001/approveEvidence/${students[index].id}`,
+        params
+      )
+      .then(() => {
+        setIsBusy(false);
+      });
+  }
+
+    /**
+   * Reject student's evidence
+   * isBusy = false when promise finish
+   */
+     async function rejectEvidence() {
+      setIsBusy(true);
+      let params = {
+        studentMail: students[index].data.correo,
+        reason: reason
+      };
+      await axios
+        .post(
+          `http://localhost:3001/rejectEvidence`,
+          params
+        )
+        .then(() => {
+          setIsBusy(false);
+        });
+    }
 
   /**
    * If the document exist enables file button in the dimmer
@@ -121,18 +164,18 @@ const ApprovedStudents = () => {
               ) : (
                 students.map((student, index) => {
                   return (
-                    <Table.Row key={student.documento}>
+                    <Table.Row key={student.data.documento}>
                       <Table.Cell>
-                        <Label ribbon color="blue"></Label>
-                        {student.nombres + " " + student.apellidos}
+                        <Label ribbon style={{backgroundColor:'#3a3768', color: 'white'}}></Label>
+                        {student.data.nombres + " " + student.data.apellidos}
                       </Table.Cell>
-                      <Table.Cell>{student.correo}</Table.Cell>
-                      <Table.Cell>{student.materia}</Table.Cell>
-                      <Table.Cell>{student.id_grupo}</Table.Cell>
+                      <Table.Cell>{student.data.correo}</Table.Cell>
+                      <Table.Cell>{student.data.materia}</Table.Cell>
+                      <Table.Cell>{student.data.id_grupo}</Table.Cell>
                       <Table.Cell>
                         <Button
                           size="small"
-                          color="blue"
+                          style={{backgroundColor:'#3a3768', color: 'white'}}
                           fluid
                           onClick={() => {
                             setIndex(index);
@@ -190,20 +233,20 @@ const ApprovedStudents = () => {
                   <Table.Body>
                     <Table.Row>
                       <Table.Cell textAlign="center">
-                        {students[index].documento}
+                        {students[index].data.documento}
                       </Table.Cell>
                       <Table.Cell textAlign="center">
-                        {students[index].nombres}
+                        {students[index].data.nombres}
                       </Table.Cell>
                       <Table.Cell textAlign="center">
-                        {students[index].apellidos}
+                        {students[index].data.apellidos}
                       </Table.Cell>
                       <Table.Cell textAlign="center">
-                        {students[index].correo}
+                        {students[index].data.correo}
                       </Table.Cell>
                       <Table.Cell textAlign="center">
                         <Icon
-                          color={disabled ? "red" : "brown"}
+                          color={disabled ? "red" : "teal"}
                           size="big"
                           link
                           disabled={disabled}
@@ -211,16 +254,24 @@ const ApprovedStudents = () => {
                           onClick={() => {
                             getDocumentUrl(
                               "inscriptions",
-                              students[index].correo
+                              students[index].data.correo
                             );
                           }}
                         />
                       </Table.Cell>
                       <Table.Cell textAlign="center">
                         <Button.Group>
-                          <Button>Rechazar</Button>
+                          <Button onClick={() => {
+                            setOpenReason(true)
+                          }}
+                          style={{backgroundColor:'#3a3768', color: 'white'}}
+                          >Rechazar</Button>
                           <Button.Or />
-                          <Button positive>Aceptar</Button>
+                          <Button color='teal' onClick={()=>{
+                            approveEvidence()
+                            getApprovedStudents()
+                            setOpen(false)
+                          }}>Aceptar</Button>
                         </Button.Group>
                       </Table.Cell>
                     </Table.Row>
@@ -241,6 +292,47 @@ const ApprovedStudents = () => {
           <Dimmer active={open}>
             <Loader size="massive">Cargando...</Loader>
           </Dimmer>
+          <Modal
+            open={openReason}
+            onClose={() => {
+              setOpenReason(false);
+            }}
+          >
+            <Modal.Header style={{ backgroundColor: "teal", color: "white" }}>
+              Razón de rechazo
+            </Modal.Header>
+            <Modal.Content>
+              <Form>
+                <TextArea
+                  maxLength="400"
+                  placeholder="Añade la justificación del rechazo máximo 400 caracteres"
+                  onChange={(e) => {
+                    setReason(e.target.value);
+                  }}
+                />
+              </Form>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                content="Confirmar rechazo"
+                labelPosition="right"
+                icon="check"
+                onClick={() => {
+                  rejectEvidence()
+                  setOpenReason(false)
+                  setOpen(false)
+                }}
+                positive
+              />
+              <Button
+                content="Cancelar"
+                labelPosition="right"
+                icon="x"
+                onClick={() => setOpenReason(false)}
+                negative
+              />
+            </Modal.Actions>
+          </Modal>
         </Grid>
       )}
     </Container>

@@ -28,7 +28,7 @@ const UploadDimmer = (props) => {
           <Header.Subheader>Ahora solo debes esperar a que esta sea revisada</Header.Subheader>
           <Header.Subheader>y ser oficialmente parte de la Universidad de Medellin!</Header.Subheader>
           <br />
-          <Button color="green" onClick={Back}>
+          <Button color="teal" onClick={Back}>
             <Button.Content visible>Volver al inicio</Button.Content>
           </Button>
         </Header>

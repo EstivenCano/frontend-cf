@@ -56,7 +56,7 @@ const PreviewAnnouncement = (props) => {
               />
               <GridRow>
                 <br />
-                <Label as="a" color="blue" image>
+                <Label as="a" style={{backgroundColor:'#3a3768', color: 'white'}} image>
                   <Icon name="calendar alternate" />
                   Inicio
                   <Label.Detail>
@@ -67,7 +67,7 @@ const PreviewAnnouncement = (props) => {
                       : ""}
                   </Label.Detail>
                 </Label>
-                <Label as="a" color="red" image>
+                <Label as="a" color="teal" image>
                   <Icon name="calendar alternate" />
                   Fin
                   <Label.Detail>
@@ -106,7 +106,7 @@ const PreviewAnnouncement = (props) => {
             <Divider />
             <Button
               animated="vertical"
-              color="blue"
+              style={{backgroundColor:'#3a3768', color: 'white'}}
               onClick={() => {
                 setVisible(visible === true ? false : true);
               }}
@@ -134,7 +134,7 @@ const PreviewAnnouncement = (props) => {
                     return (
                       <React.Fragment key={index}>
                         <GridColumn width={6} verticalAlign="middle">
-                          <Header as="h4" color="blue" textAlign="center">
+                          <Header as="h4" color="teal" textAlign="center">
                             <Icon name="book" />
                             {curso.curso}
                           </Header>
@@ -145,7 +145,7 @@ const PreviewAnnouncement = (props) => {
                           </Divider>
                         </GridColumn>
                         <GridColumn width={9}>
-                          <Header as="h4" color="red" textAlign="center">
+                          <Header as="h4" color="teal" textAlign="center">
                             <Icon name="group" />
                             {"Grupos"}
                           </Header>
@@ -171,7 +171,7 @@ const PreviewAnnouncement = (props) => {
                                     </GridRow>
                                     <GridColumn>
                                       <Header textAlign="center" attached>
-                                        <Label as="a" color="grey" image>
+                                        <Label as="a" image>
                                           <Icon name="calendar" />
                                           Dias
                                           <LabelDetail>
@@ -183,7 +183,7 @@ const PreviewAnnouncement = (props) => {
 
                                         <Grid style={{ marginTop: 0 }}>
                                           <GridColumn textAlign="center">
-                                            <Label as="a" color="blue" image>
+                                            <Label as="a" style={{backgroundColor:'#3a3768', color: 'white'}} image>
                                               <Icon name="clock" />
                                               Inicio
                                               <Label.Detail>
@@ -194,7 +194,7 @@ const PreviewAnnouncement = (props) => {
                                                   : ""}
                                               </Label.Detail>
                                             </Label>
-                                            <Label as="a" color="red" image>
+                                            <Label as="a" color="teal" image>
                                               <Icon name="clock" /> Fin{" "}
                                               <Label.Detail>
                                                 {grupo.horario !== undefined
@@ -210,7 +210,7 @@ const PreviewAnnouncement = (props) => {
                                           <Divider />
                                           <Button
                                             animated="vertical"
-                                            color="blue"
+                                            style={{backgroundColor:'#3a3768', color: 'white'}}
                                             fluid
                                             onClick={() => {
                                               clickApply(
@@ -245,7 +245,7 @@ const PreviewAnnouncement = (props) => {
                     return (
                       <React.Fragment key={index}>
                         <GridColumn width={6} verticalAlign="middle">
-                          <Header as="h4" color="blue" textAlign="center">
+                          <Header as="h4" color="teal" textAlign="center">
                             <Icon name="book" />
                             {curso.curso}
                           </Header>
@@ -256,7 +256,7 @@ const PreviewAnnouncement = (props) => {
                           </Divider>
                         </GridColumn>
                         <GridColumn width={9}>
-                          <Header as="h4" color="red" textAlign="center">
+                          <Header as="h4" color="teal" textAlign="center">
                             <Icon name="group" />
                             {"Grupos"}
                           </Header>
@@ -293,7 +293,7 @@ const PreviewAnnouncement = (props) => {
                                         </Label>
                                         <Grid style={{ marginTop: 0 }}>
                                           <GridColumn textAlign="center">
-                                            <Label as="a" color="blue" image>
+                                            <Label as="a" style={{backgroundColor:'#3a3768', color: 'white'}} image>
                                               <Icon name="clock" />
                                               Inicio
                                               <Label.Detail>
@@ -304,7 +304,7 @@ const PreviewAnnouncement = (props) => {
                                                   : ""}
                                               </Label.Detail>
                                             </Label>
-                                            <Label as="a" color="red" image>
+                                            <Label as="a" color="teal" image>
                                               <Icon name="clock" /> Fin{" "}
                                               <Label.Detail>
                                                 {grupo.horario !== undefined

@@ -155,7 +155,7 @@ const ApplyList = () => {
                 return (
                   <Table.Row key={request.id}>
                     <Table.Cell>
-                      <Label ribbon color="blue"></Label>
+                      <Label ribbon style={{backgroundColor:'#3a3768', color: 'white'}}></Label>
                       {request.data.convocatoria}
                     </Table.Cell>
                     <Table.Cell>{request.data.pregrado}</Table.Cell>
@@ -164,7 +164,7 @@ const ApplyList = () => {
                     <Table.Cell>
                       <Button
                         size="small"
-                        color="blue"
+                        style={{backgroundColor:'#3a3768', color: 'white'}}
                         fluid
                         onClick={() => {
                           setIndex(index);
@@ -257,7 +257,7 @@ const ApplyList = () => {
                       </Table.Cell>
                       <Table.Cell textAlign="center">
                         <Icon
-                          color="blue"
+                          color="teal"
                           size="big"
                           link
                           name="file archive"
@@ -272,7 +272,7 @@ const ApplyList = () => {
                       <Table.Cell textAlign="center">
                         <Button.Group>
                           <Button
-                            color="brown"
+                            style={{backgroundColor:'#3a3768', color: 'white'}}
                             onClick={() => {
                               setOpenReason(true);
                             }}
@@ -281,7 +281,7 @@ const ApplyList = () => {
                           </Button>
                           <Button.Or />
                           <Button
-                            positive
+                            color='teal'
                             onClick={() => {
                               setIndicator(0);
                               setStudent(requests[index].data);

@@ -10,8 +10,7 @@ import {
   Container,
   Divider,
   Dimmer,
-  Loader,
-  Progress,
+  Loader
 } from "semantic-ui-react";
 import { AnnouncementContext } from "../Announcement/AnnouncementContext";
 import { useHistory } from "react-router-dom";
@@ -85,6 +84,7 @@ const FormApplyStudent = (props) => {
     if (highSchool.length === 0) {
       getHighSchools();
     } 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // TODO fix useHistory bug that push to the end of the page.
@@ -297,7 +297,7 @@ const FormApplyStudent = (props) => {
                     <Button
                       animated="vertical"
                       type="file"
-                      color="black"
+                      style={{backgroundColor:'#3a3768', color: 'white'}}
                       onClick={() => btnRef.current.click()}
                     >
                       <Button.Content visible>
@@ -318,7 +318,7 @@ const FormApplyStudent = (props) => {
                     />
                     <Button
                       animated="vertical"
-                      color="blue"
+                      style={{backgroundColor:'#3a3768', color: 'white'}}
                       onClick={() => btnRef2.current.click()}
                     >
                       <Button.Content visible>Carta del rector </Button.Content>
@@ -340,7 +340,7 @@ const FormApplyStudent = (props) => {
                   <GridRow>
                     <Button
                       animated="vertical"
-                      color="green"
+                      color="teal"
                       disabled={!(validarDocs() && validarInfo())}
                       onClick={onSubmit}
                     >
