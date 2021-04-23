@@ -155,7 +155,7 @@ const ApplyList = () => {
                 return (
                   <Table.Row key={request.id}>
                     <Table.Cell>
-                      <Label ribbon color="blue"></Label>
+                      <Label ribbon style={{backgroundColor:'#3a3768', color: 'white'}}></Label>
                       {request.data.convocatoria}
                     </Table.Cell>
                     <Table.Cell>{request.data.pregrado}</Table.Cell>
@@ -164,7 +164,7 @@ const ApplyList = () => {
                     <Table.Cell>
                       <Button
                         size="small"
-                        color="blue"
+                        style={{backgroundColor:'#3a3768', color: 'white'}}
                         fluid
                         onClick={() => {
                           setIndex(index);

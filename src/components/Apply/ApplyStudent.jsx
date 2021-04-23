@@ -10,8 +10,7 @@ import {
   Container,
   Divider,
   Dimmer,
-  Loader,
-  Progress,
+  Loader
 } from "semantic-ui-react";
 import { AnnouncementContext } from "../Announcement/AnnouncementContext";
 import { useHistory } from "react-router-dom";
@@ -85,6 +84,7 @@ const FormApplyStudent = (props) => {
     if (highSchool.length === 0) {
       getHighSchools();
     } 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // TODO fix useHistory bug that push to the end of the page.

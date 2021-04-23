@@ -27,7 +27,7 @@ const AppBar = (props) => {
     return (
       <AuthCheck
         fallback={
-          <Button color="instagram" fluid onClick={signIn} animated>
+          <Button color="teal" fluid onClick={signIn} animated>
             <ButtonContent visible>
               <Icon name="google" /> Iniciar con Google
             </ButtonContent>
@@ -37,7 +37,7 @@ const AppBar = (props) => {
           </Button>
         }
       >
-        <Button color="google plus" fluid onClick={signOut} animated>
+        <Button style={{backgroundColor:'#3a3768', color: 'white'}} fluid onClick={signOut} animated>
           <ButtonContent visible>
             <Icon name="google" /> Cerrar sesión
           </ButtonContent>
